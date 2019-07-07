@@ -5,11 +5,15 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import cz.todo_project.app.enums.PriorityEnum;
 
 
 @Entity
@@ -36,7 +40,8 @@ public class Task implements Serializable {
 	private Long real;
 	
 	@Column
-	private Long priority;
+	@Enumerated(EnumType.ORDINAL)
+	private PriorityEnum priority;
 	
 	public Long getId() {
 		return id;
@@ -62,10 +67,10 @@ public class Task implements Serializable {
 	public void setReal(Long real) {
 		this.real = real;
 	}
-	public Long getPriority() {
+	public PriorityEnum getPriority() {
 		return priority;
 	}
-	public void setPriority(Long priority) {
+	public void setPriority(PriorityEnum priority) {
 		this.priority = priority;
 	}
 	

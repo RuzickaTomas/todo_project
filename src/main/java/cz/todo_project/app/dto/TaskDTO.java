@@ -1,7 +1,8 @@
 package cz.todo_project.app.dto;
 
-import java.io.Serializable;
 import java.util.Objects;
+
+import cz.todo_project.app.enums.PriorityEnum;
 
 public class TaskDTO {
 	
@@ -9,7 +10,7 @@ public class TaskDTO {
 	private String name;
 	private Long guess;
 	private Long real;
-	private Long priority;
+	private PriorityEnum priority;
 	
 	public Long getId() {
 		return id;
@@ -35,10 +36,10 @@ public class TaskDTO {
 	public void setReal(Long real) {
 		this.real = real;
 	}
-	public Long getPriority() {
+	public PriorityEnum getPriority() {
 		return priority;
 	}
-	public void setPriority(Long priority) {
+	public void setPriority(PriorityEnum priority) {
 		this.priority = priority;
 	}
 	

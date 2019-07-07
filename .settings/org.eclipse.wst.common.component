@@ -2,7 +2,7 @@
                 
     
     
-    <wb-module deploy-name="todolist-0.0.1-SNAPSHOT">
+    <wb-module deploy-name="todo_project-0.0.1-SNAPSHOT">
                                 
         
         
@@ -23,7 +23,7 @@
         
         
         <property name="java-output-path" value="/todolist/target/classes"/>
-        <property name="context-root" value="todolist"/>
+        <property name="context-root" value="todo_project"/>
                             
     
     

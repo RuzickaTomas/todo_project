@@ -18,7 +18,7 @@ import cz.todo_project.app.entity.Task;
 
 
 @Configuration
-@ComponentScan(basePackages = { "cz.todolist.app.*" })
+@ComponentScan(basePackages = { "cz.todo_project.app.*" })
 @EnableTransactionManagement
 @EnableWebMvc
 public class SpringConfig implements WebMvcConfigurer {

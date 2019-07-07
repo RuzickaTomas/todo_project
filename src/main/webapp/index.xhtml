@@ -15,7 +15,7 @@ xmlns:p="http://primefaces.org/ui"
     <h3>Spring + JSF Example - todo</h3>
         <h:outputText value = "#{testJsfBean.msg}"/>
 	
-	<h:form>
+	<h:form id="tblForm">
 	 <p:growl id="growl" showDetail="true" sticky="true" >
 	 	<p:autoUpdate />
 	 </p:growl>  
@@ -49,15 +49,32 @@ xmlns:p="http://primefaces.org/ui"
 		    
 		    <p:column style="width:35px">
             	<p:rowEditor />
+            	<p:commandButton icon="pi pi-trash"  action="#{testJsfBean.deleteTask(tsk.id)}" update="tasksTbl" />
         	</p:column>
 		    
 		    
 		</p:dataTable>
 	
-		<p:commandButton value="click" onclick="PF('dialog').show();"></p:commandButton>
-	</h:form>    
-	<p:dialog id="dialog" widgetVar="dialog" modal="true">
-		<h:outputText value="hello" />
+		<p:commandButton style="border-radius: 25px; width: 50px; height: 50px;" icon="pi pi-plus" actionListener="#{testJsfBean.prepareNewTask}" onclick="PF('dialog').show();"></p:commandButton>
+	</h:form>
+	    
+	<p:dialog id="dialog" widgetVar="dialog" modal="true" style="width: 200px;">
+		<h:form>
+		<p:panelGrid id="grid" columns="2">
+			<h:outputLabel for="newTaskPrio" value="Priorita" />
+			<p:selectOneMenu id="newTaskPrio" value="#{testJsfBean.newTask.priority}" >
+				<f:selectItems value="#{testJsfBean.priorityEnums}" />
+			</p:selectOneMenu>
+			
+			<h:outputLabel for="newTaskName" value="Název" />
+			<p:inputText id="newTaskName" value="#{testJsfBean.newTask.name}" />
+		
+			<h:outputLabel for="newTaskGuess" value="Odhad. čas" />
+			<p:inputText id="newTaskGuess" value="#{testJsfBean.newTask.guess}" />
+		
+			<p:commandButton icon="pi pi-save" update=":tblForm:tasksTbl @form" action="#{testJsfBean.saveTask()}" onclick="PF('dialog').hide()" value="Uložit" />
+		</p:panelGrid>
+		</h:form>
 	</p:dialog>
 </h:body>
 </html>

@@ -1,13 +1,10 @@
 package cz.todo_project.app.service;
 
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.stereotype.Service;
-
-import cz.todo_project.app.service.MsgService;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public class DefaultMsgService implements MsgService {
