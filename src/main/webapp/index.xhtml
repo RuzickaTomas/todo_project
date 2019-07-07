@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:p="http://primefaces.org/ui"
+>
+
+<h:head>
+    <title>Spring + JSF</title>
+</h:head>
+<h:body>
+    <h3>Spring + JSF Example - todo</h3>
+        <h:outputText value = "#{testJsfBean.msg}"/>
+	
+	<h:form>
+	 <p:growl id="growl" showDetail="true" sticky="true" >
+	 	<p:autoUpdate />
+	 </p:growl>  
+	
+		<p:dataTable id="tasksTbl" var="tsk" value="#{testJsfBean.tasks}" editable="true" >
+			<p:ajax event="rowEdit" listener="#{testJsfBean.onRowEdit}" update="tasksTbl" />
+			<p:ajax event="rowEditCancel" listener="#{testJsfBean.onRowCancel}" update="tasksTbl" />
+		
+		    <p:column headerText="Priorita" sortBy="#{tsk.priority}">
+		        <h:outputText value="#{tsk.priority}" />
+		    </p:column>
+		 
+		    <p:column headerText="Název">
+		        <p:cellEditor>
+                   <f:facet name="output">
+                   		<h:outputText value="#{tsk.name}" />
+                   </f:facet>
+                   <f:facet name="input">
+	                   <p:inputText value="#{tsk.name}" style="width:96%" />
+                   </f:facet>
+               </p:cellEditor>
+		    </p:column>
+		 
+		    <p:column headerText="Plán">
+		        <h:outputText value="#{tsk.guess}" />
+		    </p:column>
+		 
+		    <p:column headerText="Skutečnost">
+		        <h:outputText value="#{tsk.real}" />
+		    </p:column>
+		    
+		    <p:column style="width:35px">
+            	<p:rowEditor />
+        	</p:column>
+		    
+		    
+		</p:dataTable>
+	
+		<p:commandButton value="click" onclick="PF('dialog').show();"></p:commandButton>
+	</h:form>    
+	<p:dialog id="dialog" widgetVar="dialog" modal="true">
+		<h:outputText value="hello" />
+	</p:dialog>
+</h:body>
+</html>
