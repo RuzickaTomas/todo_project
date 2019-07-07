@@ -20,23 +20,14 @@ xmlns:p="http://primefaces.org/ui"
 	 	<p:autoUpdate />
 	 </p:growl>  
 	
-		<p:dataTable id="tasksTbl" var="tsk" value="#{testJsfBean.tasks}" editable="true" >
-			<p:ajax event="rowEdit" listener="#{testJsfBean.onRowEdit}" update="tasksTbl" />
-			<p:ajax event="rowEditCancel" listener="#{testJsfBean.onRowCancel}" update="tasksTbl" />
+		<p:dataTable id="tasksTbl" var="tsk" value="#{testJsfBean.tasks}">
 		
 		    <p:column headerText="Priorita" sortBy="#{tsk.priority}">
 		        <h:outputText value="#{tsk.priority}" />
 		    </p:column>
 		 
 		    <p:column headerText="Název">
-		        <p:cellEditor>
-                   <f:facet name="output">
-                   		<h:outputText value="#{tsk.name}" />
-                   </f:facet>
-                   <f:facet name="input">
-	                   <p:inputText value="#{tsk.name}" style="width:96%" />
-                   </f:facet>
-               </p:cellEditor>
+                <h:outputText value="#{tsk.name}" />
 		    </p:column>
 		 
 		    <p:column headerText="Plán">
@@ -47,9 +38,9 @@ xmlns:p="http://primefaces.org/ui"
 		        <h:outputText value="#{tsk.real}" />
 		    </p:column>
 		    
-		    <p:column style="width:35px">
-            	<p:rowEditor />
-            	<p:commandButton icon="pi pi-trash"  action="#{testJsfBean.deleteTask(tsk.id)}" update="tasksTbl" />
+		    <p:column style="width:70px">
+				<p:commandButton icon="pi pi-pencil" action="#{testJsfBean.updateTask(tsk)}" onclick="PF('dialog').show()" />
+            	<p:commandButton icon="pi pi-trash" style="background-color: red !important; border-color: red !important"  action="#{testJsfBean.deleteTask(tsk.id)}" update="tasksTbl" />
         	</p:column>
 		    
 		    
@@ -60,6 +51,7 @@ xmlns:p="http://primefaces.org/ui"
 	    
 	<p:dialog id="dialog" widgetVar="dialog" modal="true" style="width: 200px;">
 		<h:form>
+		<p:autoUpdate />
 		<p:panelGrid id="grid" columns="2">
 			<h:outputLabel for="newTaskPrio" value="Priorita" />
 			<p:selectOneMenu id="newTaskPrio" value="#{testJsfBean.newTask.priority}" >
@@ -71,8 +63,10 @@ xmlns:p="http://primefaces.org/ui"
 		
 			<h:outputLabel for="newTaskGuess" value="Odhad. čas" />
 			<p:inputText id="newTaskGuess" value="#{testJsfBean.newTask.guess}" />
-		
-			<p:commandButton icon="pi pi-save" update=":tblForm:tasksTbl @form" action="#{testJsfBean.saveTask()}" onclick="PF('dialog').hide()" value="Uložit" />
+
+			<h:outputLabel for="newTaskReal" value="Real. čas" rendered="#{testJsfBean.toUpdate}"/>
+			<p:inputText id="newTaskReal" value="#{testJsfBean.newTask.real}" rendered="#{testJsfBean.toUpdate}" />		
+			<p:commandButton icon="pi pi-save" update=":tblForm:tasksTbl" actionListener="#{testJsfBean.saveTask}" onclick="PF('dialog').hide()" value="Uložit" />
 		</p:panelGrid>
 		</h:form>
 	</p:dialog>

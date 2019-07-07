@@ -43,6 +43,7 @@ public class TaskDTO {
 		this.priority = priority;
 	}
 	
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(guess, id, name, priority, real);
