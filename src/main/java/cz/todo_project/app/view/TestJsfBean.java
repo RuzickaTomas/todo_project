@@ -7,6 +7,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 
 import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.DisposableBean;
@@ -22,7 +23,7 @@ import cz.todo_project.app.service.TaskService;
 @Component
 @ManagedBean
 @ViewScoped
-public class TestJsfBean implements InitializingBean, DisposableBean {
+public class TestJsfBean implements InitializingBean {
     @Autowired
     private DefaultMsgService msgService;
     
@@ -119,15 +120,14 @@ public class TestJsfBean implements InitializingBean, DisposableBean {
 		init();
 	}
     
-
-	//replacement @PreDestroy
-	@Override
-	public void destroy() throws Exception {
-		// TODO Auto-generated method stub
-		
+	
+	public void onLoad(AjaxBehaviorEvent event) {
+		init();
 	}
 
-
+	public void refresh(AjaxBehaviorEvent event) {
+    	tasks = taskService.getAll();
+	}
 
 
     

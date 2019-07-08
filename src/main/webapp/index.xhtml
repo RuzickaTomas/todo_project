@@ -12,16 +12,18 @@ xmlns:p="http://primefaces.org/ui"
     <title>Spring + JSF</title>
 </h:head>
 <h:body>
+    
     <h3>Spring + JSF Example - todo</h3>
         <h:outputText value = "#{testJsfBean.msg}"/>
-	
+    
+	<f:ajax event="load" listener="#{testJsfBean.onLoad}" />
 	<h:form id="tblForm">
 	 <p:growl id="growl" showDetail="true" sticky="true" >
 	 	<p:autoUpdate />
 	 </p:growl>  
 	
 		<p:dataTable id="tasksTbl" var="tsk" value="#{testJsfBean.tasks}">
-		
+			<p:autoUpdate />
 		    <p:column headerText="Priorita" sortBy="#{tsk.priority}">
 		        <h:outputText value="#{tsk.priority}" />
 		    </p:column>
@@ -40,7 +42,9 @@ xmlns:p="http://primefaces.org/ui"
 		    
 		    <p:column style="width:70px">
 				<p:commandButton icon="pi pi-pencil" action="#{testJsfBean.updateTask(tsk)}" onclick="PF('dialog').show()" />
-            	<p:commandButton icon="pi pi-trash" style="background-color: red !important; border-color: red !important"  action="#{testJsfBean.deleteTask(tsk.id)}" update="tasksTbl" />
+            	<p:commandButton icon="pi pi-trash" style="background-color: red !important; border-color: red !important"  action="#{testJsfBean.deleteTask(tsk.id)}" >
+            		<p:ajax event="click" listener="#{testJsfBean.refresh}" />
+            	</p:commandButton>
         	</p:column>
 		    
 		    
@@ -66,7 +70,9 @@ xmlns:p="http://primefaces.org/ui"
 
 			<h:outputLabel for="newTaskReal" value="Real. čas" rendered="#{testJsfBean.toUpdate}"/>
 			<p:inputText id="newTaskReal" value="#{testJsfBean.newTask.real}" rendered="#{testJsfBean.toUpdate}" />		
-			<p:commandButton icon="pi pi-save" update=":tblForm:tasksTbl" actionListener="#{testJsfBean.saveTask}" onclick="PF('dialog').hide()" value="Uložit" />
+			<p:commandButton icon="pi pi-save" actionListener="#{testJsfBean.saveTask}" onclick="PF('dialog').hide()" value="Uložit" >
+			         <p:ajax event="click" listener="#{testJsfBean.refresh}" />
+			</p:commandButton>
 		</p:panelGrid>
 		</h:form>
 	</p:dialog>
