@@ -31,7 +31,6 @@ public class TestJsfBean implements InitializingBean {
     private TaskService taskService;
     
     private List<TaskDTO> tasks = new ArrayList<>();
-    private TaskDTO task;
     private TaskDTO newTask;
     
     private boolean toUpdate;
@@ -89,6 +88,7 @@ public class TestJsfBean implements InitializingBean {
 			taskService.update(newTask);
 		}
 		prepareNewTask();
+		refreshList();
 	}
 	
 	
@@ -101,6 +101,7 @@ public class TestJsfBean implements InitializingBean {
 	
 	public void deleteTask(Long id) {
 		taskService.delete(id);
+		refreshList();
 	}
 
 	 
@@ -126,9 +127,12 @@ public class TestJsfBean implements InitializingBean {
 	}
 
 	public void refresh(AjaxBehaviorEvent event) {
-    	tasks = taskService.getAll();
+		refreshList();
 	}
 
+	private void refreshList() {
+    	tasks = taskService.getAll();
+	}
 
     
     

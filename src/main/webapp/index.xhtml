@@ -50,7 +50,7 @@ xmlns:p="http://primefaces.org/ui"
 		    
 		</p:dataTable>
 	
-		<p:commandButton style="border-radius: 25px; width: 50px; height: 50px;" icon="pi pi-plus" actionListener="#{testJsfBean.prepareNewTask}" onclick="PF('dialog').show();"></p:commandButton>
+		<p:commandButton style="border-radius: 25px; width: 50px; height: 50px;" icon="pi pi-plus" action="#{testJsfBean.prepareNewTask}" onclick="PF('dialog').show();"></p:commandButton>
 	</h:form>
 	    
 	<p:dialog id="dialog" widgetVar="dialog" modal="true" style="width: 200px;">
@@ -70,8 +70,7 @@ xmlns:p="http://primefaces.org/ui"
 
 			<h:outputLabel for="newTaskReal" value="Real. čas" rendered="#{testJsfBean.toUpdate}"/>
 			<p:inputText id="newTaskReal" value="#{testJsfBean.newTask.real}" rendered="#{testJsfBean.toUpdate}" />		
-			<p:commandButton icon="pi pi-save" actionListener="#{testJsfBean.saveTask}" onclick="PF('dialog').hide()" value="Uložit" >
-			         <p:ajax event="click" listener="#{testJsfBean.refresh}" />
+			<p:commandButton icon="pi pi-save" actionListener="#{testJsfBean.saveTask}" onclick="PF('dialog').hide()" value="Uložit" update=":tblForm">
 			</p:commandButton>
 		</p:panelGrid>
 		</h:form>
