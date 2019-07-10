@@ -43,6 +43,22 @@ public class TaskDTO {
 		this.priority = priority;
 	}
 	
+	public String getColor() {
+		if (PriorityEnum.LOW.equals(priority)) {
+			return "low";
+		}
+		if (PriorityEnum.MEDIUM.equals(priority)) {
+			return "medium";
+		}
+		if (PriorityEnum.HIGH.equals(priority)) {
+			return "high";
+		}
+		if (PriorityEnum.IMMEDIATE.equals(priority)) {
+			return "immediate";
+		}
+		return "";
+	}
+	
 	
 	@Override
 	public int hashCode() {

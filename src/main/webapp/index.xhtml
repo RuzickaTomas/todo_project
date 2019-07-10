@@ -14,7 +14,22 @@ xmlns:p="http://primefaces.org/ui"
 <h:body>
     
     <h3>Spring + JSF Example - todo</h3>
-        <h:outputText value = "#{testJsfBean.msg}"/>
+       <h:outputText value = "#{testJsfBean.msg}"/>
+   
+   	<style>
+   	.low {
+   		border-left: 30px solid green !important;
+   	}
+   	.medium {
+   		border-left: 30px solid yellow !important;
+   	}
+   	.high {
+   		border-left: 30px solid orange !important;
+   	}
+   	.immediate {
+   		border-left: 30px solid red !important;
+   	}
+   	</style>
     
 	<f:ajax event="load" listener="#{testJsfBean.onLoad}" />
 	<h:form id="tblForm">
@@ -24,8 +39,8 @@ xmlns:p="http://primefaces.org/ui"
 	
 		<p:dataTable id="tasksTbl" var="tsk" value="#{testJsfBean.tasks}">
 			<p:autoUpdate />
-		    <p:column headerText="Priorita" sortBy="#{tsk.priority}">
-		        <h:outputText value="#{tsk.priority}" />
+		    <p:column headerText="Priorita" sortBy="#{tsk.priority}" styleClass="#{tsk.color}">
+		        <h:outputText  value="#{tsk.priority}" />
 		    </p:column>
 		 
 		    <p:column headerText="Název">
@@ -40,9 +55,11 @@ xmlns:p="http://primefaces.org/ui"
 		        <h:outputText value="#{tsk.real}" />
 		    </p:column>
 		    
-		    <p:column style="width:70px">
-				<p:commandButton icon="pi pi-pencil" action="#{testJsfBean.updateTask(tsk)}" onclick="PF('dialog').show()" />
-            	<p:commandButton icon="pi pi-trash" style="background-color: red !important; border-color: red !important"  action="#{testJsfBean.deleteTask(tsk.id)}" >
+		    <p:column style="width:45px">
+				<p:commandButton icon="pi pi-pencil" action="#{testJsfBean.updateTask(tsk)}" style="width: 100%; height: 100%;" onclick="PF('dialog').show()" />
+        	</p:column>
+        	<p:column style="width:45px">
+        	     <p:commandButton icon="pi pi-trash" style="background-color: red !important; border-color: red !important; width: 100%; height: 100%;"  action="#{testJsfBean.deleteTask(tsk.id)}" >
             		<p:ajax event="click" listener="#{testJsfBean.refresh}" />
             	</p:commandButton>
         	</p:column>
@@ -66,10 +83,14 @@ xmlns:p="http://primefaces.org/ui"
 			<p:inputText id="newTaskName" value="#{testJsfBean.newTask.name}" />
 		
 			<h:outputLabel for="newTaskGuess" value="Odhad. čas" />
-			<p:inputText id="newTaskGuess" value="#{testJsfBean.newTask.guess}" />
+			<p:inputText id="newTaskGuess" value="#{testJsfBean.newTask.guess}" >
+			 	<p:keyFilter regEx="/[\d]/"/> 
+			</p:inputText>
 
 			<h:outputLabel for="newTaskReal" value="Real. čas" rendered="#{testJsfBean.toUpdate}"/>
-			<p:inputText id="newTaskReal" value="#{testJsfBean.newTask.real}" rendered="#{testJsfBean.toUpdate}" />		
+			<p:inputText id="newTaskReal" value="#{testJsfBean.newTask.real}" rendered="#{testJsfBean.toUpdate}" >
+				<p:keyFilter regEx="/[\d]/"/> 
+			</p:inputText>		
 			<p:commandButton icon="pi pi-save" actionListener="#{testJsfBean.saveTask}" onclick="PF('dialog').hide()" value="Uložit" update=":tblForm">
 			</p:commandButton>
 		</p:panelGrid>
