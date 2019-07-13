@@ -13,7 +13,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import com.sun.faces.config.FacesInitializer;
 
 public class AppInitializer extends FacesInitializer implements WebApplicationInitializer  {
-
+	
 	public void onStartup(ServletContext servletContext) throws ServletException {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.register(SpringConfig.class);
