@@ -12,7 +12,6 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 
 import cz.todo_project.app.handler.RestSuccessHandler;
 
-@Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter  {
 	

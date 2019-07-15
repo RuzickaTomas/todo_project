@@ -34,7 +34,7 @@ public class SpringConfig implements WebMvcConfigurer {
 			LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
 			factoryBean.setConfigLocation(applicationContext.getResource("classpath:hibernate-config.cfg.xml"));
 			factoryBean.setAnnotatedClasses(new Class[] {Task.class});
-	        return factoryBean;
+			return factoryBean;
 		}
 		
 	    @Bean
