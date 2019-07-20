@@ -34,8 +34,6 @@ public class User implements Serializable {
 	@Column
 	private LocalDate valid_to;
 	
-	@OneToMany
-	private Set<Task> tasks;
 	
 	public Long getId() {
 		return id;

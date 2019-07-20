@@ -18,7 +18,8 @@ public class TaskService {
 	@Autowired
 	private TaskDAOImpl taskDao;
 		
-	
+	@Autowired
+	private UserService userService;
 	
 	@Transactional
 	public void create(TaskDTO entity) {
@@ -64,6 +65,7 @@ public class TaskService {
 		to.setGuess(from.getGuess());
 		to.setPriority(from.getPriority());
 		to.setReal(from.getReal());
+		to.setUser(userService.transform(from.getUser()));
 		return to;
 	}
 	
@@ -77,6 +79,7 @@ public class TaskService {
 		to.setGuess(from.getGuess());
 		to.setPriority(from.getPriority());
 		to.setReal(from.getReal());
+		to.setUser(userService.transform(from.getUser()));
 		return to;
 	}
 	

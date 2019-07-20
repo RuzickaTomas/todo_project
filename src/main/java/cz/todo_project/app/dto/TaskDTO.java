@@ -11,6 +11,7 @@ public class TaskDTO {
 	private Long guess;
 	private Long real;
 	private PriorityEnum priority;
+	private UserDTO user;
 	
 	public Long getId() {
 		return id;
@@ -41,6 +42,13 @@ public class TaskDTO {
 	}
 	public void setPriority(PriorityEnum priority) {
 		this.priority = priority;
+	}
+	
+	public UserDTO getUser() {
+		return user;
+	}
+	public void setUser(UserDTO user) {
+		this.user = user;
 	}
 	
 	public String getColor() {

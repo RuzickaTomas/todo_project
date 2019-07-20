@@ -7,9 +7,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -43,6 +46,10 @@ public class Task implements Serializable {
 	@Enumerated(EnumType.ORDINAL)
 	private PriorityEnum priority;
 	
+	@ManyToOne
+	@JoinColumn(referencedColumnName = "id" ,  nullable = true)
+	private User user;
+	
 	public Long getId() {
 		return id;
 	}
@@ -72,6 +79,13 @@ public class Task implements Serializable {
 	}
 	public void setPriority(PriorityEnum priority) {
 		this.priority = priority;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	@Override

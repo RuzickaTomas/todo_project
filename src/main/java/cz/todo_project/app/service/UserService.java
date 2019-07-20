@@ -18,6 +18,13 @@ public class UserService {
 	private UserDAOImpl userDao;
 
 	
+	@Transactional(readOnly = true)
+	public UserDTO getByName(String name) {
+		User user = userDao.getByName(name);
+		UserDTO res = transform(user);
+		return res;
+	}
+	
 	@Transactional
 	public void create(UserDTO entity) {
 	 User domain = transform(entity);
@@ -55,6 +62,9 @@ public class UserService {
 	
 	
 	public UserDTO transform(User from) {
+		if (from == null) {
+			return null;
+		}
 		UserDTO to = new UserDTO();
 		to.setId(from.getId());
 		to.setName(from.getName());
@@ -64,6 +74,9 @@ public class UserService {
 	}
 
 	public User transform(UserDTO from) {
+		if (from == null) {
+			return null;
+		}
 		User to = new User();
 		to.setId(from.getId());
 		to.setName(from.getName());

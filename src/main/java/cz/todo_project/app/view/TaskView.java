@@ -16,9 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cz.todo_project.app.dto.TaskDTO;
+import cz.todo_project.app.dto.UserDTO;
 import cz.todo_project.app.enums.PriorityEnum;
 import cz.todo_project.app.service.DefaultMsgService;
 import cz.todo_project.app.service.TaskService;
+import cz.todo_project.app.service.UserService;
 
 @Component
 @ManagedBean
@@ -32,9 +34,14 @@ public class TaskView implements InitializingBean {
     
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private UserService userService;
     
     private List<TaskDTO> tasks = new ArrayList<>();
     private TaskDTO newTask;
+    
+    private List<UserDTO> users = new ArrayList<>();
     
     private boolean toUpdate;
     
@@ -42,6 +49,7 @@ public class TaskView implements InitializingBean {
     public void init() {
     	tasks = taskService.getAll();
     	newTask = new TaskDTO();
+    	users = userService.getAll();
     } 
     
     public List<TaskDTO> getTasks() {
@@ -135,6 +143,14 @@ public class TaskView implements InitializingBean {
 
 	private void refreshList() {
     	tasks = taskService.getAll();
+	}
+
+	public List<UserDTO> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<UserDTO> users) {
+		this.users = users;
 	}
 
     

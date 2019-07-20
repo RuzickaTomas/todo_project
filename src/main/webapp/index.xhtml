@@ -94,7 +94,12 @@ xmlns:p="http://primefaces.org/ui"
 			<h:outputLabel for="newTaskReal" value="Real. čas" rendered="#{taskView.toUpdate}"/>
 			<p:inputText id="newTaskReal" value="#{taskView.newTask.real}" rendered="#{taskView.toUpdate}" >
 				<p:keyFilter regEx="/[\d]/"/> 
-			</p:inputText>		
+			</p:inputText>	
+			
+			<h:outputLabel for="assignee"  value="Osoba"  rendered="#{taskView.toUpdate}" />
+			<p:selectOneMenu id="assignee" value="#{taskView.newTask.user}" converter="#{userConverter}" rendered="#{taskView.toUpdate}">
+				<f:selectItems value="#{taskView.users}"  var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"  />
+			</p:selectOneMenu>	
 			<p:commandButton icon="pi pi-save" actionListener="#{taskView.saveTask}" onclick="PF('dialog').hide()" value="Uložit" update=":tblForm">
 			</p:commandButton>
 		</p:panelGrid>
