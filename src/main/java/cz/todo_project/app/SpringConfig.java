@@ -17,6 +17,7 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import cz.todo_project.app.entity.Task;
+import cz.todo_project.app.entity.User;
 
 
 @Configuration
@@ -33,7 +34,7 @@ public class SpringConfig implements WebMvcConfigurer {
 	    public LocalSessionFactoryBean getSessionFactory() {
 			LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
 			factoryBean.setConfigLocation(applicationContext.getResource("classpath:hibernate-config.cfg.xml"));
-			factoryBean.setAnnotatedClasses(new Class[] {Task.class});
+			factoryBean.setAnnotatedClasses(new Class[] {Task.class, User.class});
 			return factoryBean;
 		}
 		

@@ -15,7 +15,8 @@ import cz.todo_project.app.handler.RestSuccessHandler;
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter  {
 	
-
+	//TODO enable OAuth
+	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 	    auth.inMemoryAuthentication()

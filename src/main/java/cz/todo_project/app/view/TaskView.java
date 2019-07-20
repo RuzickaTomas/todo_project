@@ -23,7 +23,10 @@ import cz.todo_project.app.service.TaskService;
 @Component
 @ManagedBean
 @ViewScoped
-public class TestJsfBean implements InitializingBean {
+public class TaskView implements InitializingBean {
+	
+	//TODO add validations
+	
     @Autowired
     private DefaultMsgService msgService;
     

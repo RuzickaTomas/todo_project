@@ -14,7 +14,7 @@ xmlns:p="http://primefaces.org/ui"
 <h:body>
     
     <h3>Spring + JSF Example - todo</h3>
-       <h:outputText value = "#{testJsfBean.msg}"/>
+       <h:outputText value = "#{taskView.msg}"/>
    
    	<style>
    	.low {
@@ -29,15 +29,19 @@ xmlns:p="http://primefaces.org/ui"
    	.immediate {
    		border-left: 30px solid red !important;
    	}
+   	
+   	#dialog_content > form  table tr td {
+		border: none;
+   	}
    	</style>
     
-	<f:ajax event="load" listener="#{testJsfBean.onLoad}" />
+	<f:ajax event="load" listener="#{taskView.onLoad}" />
 	<h:form id="tblForm">
 	 <p:growl id="growl" showDetail="true" sticky="true" >
 	 	<p:autoUpdate />
 	 </p:growl>  
 	
-		<p:dataTable id="tasksTbl" var="tsk" value="#{testJsfBean.tasks}">
+		<p:dataTable id="tasksTbl" var="tsk" value="#{taskView.tasks}">
 			<p:autoUpdate />
 		    <p:column headerText="Priorita" sortBy="#{tsk.priority}" styleClass="#{tsk.color}">
 		        <h:outputText  value="#{tsk.priority}" />
@@ -56,18 +60,18 @@ xmlns:p="http://primefaces.org/ui"
 		    </p:column>
 		    
 		    <p:column style="width:45px">
-				<p:commandButton icon="pi pi-pencil" action="#{testJsfBean.updateTask(tsk)}" style="width: 100%; height: 100%;" onclick="PF('dialog').show()" />
+				<p:commandButton icon="pi pi-pencil" action="#{taskView.updateTask(tsk)}" style="width: 100%; height: 100%;" onclick="PF('dialog').show()" />
         	</p:column>
         	<p:column style="width:45px">
-        	     <p:commandButton icon="pi pi-trash" style="background-color: red !important; border-color: red !important; width: 100%; height: 100%;"  action="#{testJsfBean.deleteTask(tsk.id)}" >
-            		<p:ajax event="click" listener="#{testJsfBean.refresh}" />
+        	     <p:commandButton icon="pi pi-trash" style="background-color: red !important; border-color: red !important; width: 100%; height: 100%;"  action="#{taskView.deleteTask(tsk.id)}" >
+            		<p:ajax event="click" listener="#{taskView.refresh}" />
             	</p:commandButton>
         	</p:column>
 		    
 		    
 		</p:dataTable>
 	
-		<p:commandButton style="border-radius: 25px; width: 50px; height: 50px;" icon="pi pi-plus" action="#{testJsfBean.prepareNewTask}" onclick="PF('dialog').show();"></p:commandButton>
+		<p:commandButton style="border-radius: 25px; width: 50px; height: 50px;" icon="pi pi-plus" action="#{taskView.prepareNewTask}" onclick="PF('dialog').show();"></p:commandButton>
 	</h:form>
 	    
 	<p:dialog id="dialog" widgetVar="dialog" modal="true" style="width: 200px;">
@@ -75,23 +79,23 @@ xmlns:p="http://primefaces.org/ui"
 		<p:autoUpdate />
 		<p:panelGrid id="grid" columns="2">
 			<h:outputLabel for="newTaskPrio" value="Priorita" />
-			<p:selectOneMenu id="newTaskPrio" value="#{testJsfBean.newTask.priority}" >
-				<f:selectItems value="#{testJsfBean.priorityEnums}" />
+			<p:selectOneMenu id="newTaskPrio" value="#{taskView.newTask.priority}" >
+				<f:selectItems value="#{taskView.priorityEnums}" />
 			</p:selectOneMenu>
 			
 			<h:outputLabel for="newTaskName" value="Název" />
-			<p:inputText id="newTaskName" value="#{testJsfBean.newTask.name}" />
+			<p:inputText id="newTaskName" value="#{taskView.newTask.name}" />
 		
 			<h:outputLabel for="newTaskGuess" value="Odhad. čas" />
-			<p:inputText id="newTaskGuess" value="#{testJsfBean.newTask.guess}" >
+			<p:inputText id="newTaskGuess" value="#{taskView.newTask.guess}" >
 			 	<p:keyFilter regEx="/[\d]/"/> 
 			</p:inputText>
 
-			<h:outputLabel for="newTaskReal" value="Real. čas" rendered="#{testJsfBean.toUpdate}"/>
-			<p:inputText id="newTaskReal" value="#{testJsfBean.newTask.real}" rendered="#{testJsfBean.toUpdate}" >
+			<h:outputLabel for="newTaskReal" value="Real. čas" rendered="#{taskView.toUpdate}"/>
+			<p:inputText id="newTaskReal" value="#{taskView.newTask.real}" rendered="#{taskView.toUpdate}" >
 				<p:keyFilter regEx="/[\d]/"/> 
 			</p:inputText>		
-			<p:commandButton icon="pi pi-save" actionListener="#{testJsfBean.saveTask}" onclick="PF('dialog').hide()" value="Uložit" update=":tblForm">
+			<p:commandButton icon="pi pi-save" actionListener="#{taskView.saveTask}" onclick="PF('dialog').hide()" value="Uložit" update=":tblForm">
 			</p:commandButton>
 		</p:panelGrid>
 		</h:form>
