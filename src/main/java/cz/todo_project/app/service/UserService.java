@@ -4,18 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cz.todo_project.app.dao.UserDAOImpl;
 import cz.todo_project.app.dto.UserDTO;
+import cz.todo_project.app.dto.UserPropertiesDTO;
 import cz.todo_project.app.entity.User;
+import cz.todo_project.app.entity.UserProperties;
+import cz.todo_project.app.enums.UserRoleEnum;
 
 @Service
 public class UserService {
 
 	@Autowired
 	private UserDAOImpl userDao;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	
 	@Transactional(readOnly = true)
@@ -70,6 +77,9 @@ public class UserService {
 		to.setName(from.getName());
 		to.setSurname(from.getSurname());
 		to.setValid_to(from.getValid_to());
+		if (from.getProperties() != null) {
+		to.setProperties(transform(from.getProperties()));
+		}
 		return to;
 	}
 
@@ -82,8 +92,31 @@ public class UserService {
 		to.setName(from.getName());
 		to.setSurname(from.getSurname());
 		to.setValid_to(from.getValid_to());
+		if (from.getProperties() != null) {
+		to.setProperties(transform(from.getProperties()));
+		}
 		return to;
 	}
+	
+	private UserPropertiesDTO transform(UserProperties from) {
+		 UserPropertiesDTO to = new UserPropertiesDTO();
+		 to.setId(from.getId());
+		 to.setPassword(from.getPassword());
+		 to.setRole(from.getRole());
+		 return to;
+	}
 
+	private UserProperties transform(UserPropertiesDTO from) {
+		 UserProperties to = new UserProperties();
+		 to.setId(from.getId());
+		 to.setPassword(from.getPassword());
+		 to.setRole(from.getRole());
+		 return to;
+	}
+	
+	public String hashPassword(String password) {
+		return passwordEncoder.encode(password);
+	} 
+	
 
 }

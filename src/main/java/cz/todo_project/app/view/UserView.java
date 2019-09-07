@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cz.todo_project.app.dto.UserDTO;
+import cz.todo_project.app.dto.UserPropertiesDTO;
 import cz.todo_project.app.enums.PriorityEnum;
+import cz.todo_project.app.enums.UserRoleEnum;
 import cz.todo_project.app.service.UserService;
 
 @Component
@@ -34,6 +36,7 @@ public class UserView implements InitializingBean {
     public void init() {
     	Users = UserService.getAll();
     	newUser = new UserDTO();
+    	newUser.setProperties(new UserPropertiesDTO());
     } 
     
     public List<UserDTO> getUsers() {
@@ -69,14 +72,19 @@ public class UserView implements InitializingBean {
 		this.toUpdate = toUpdate;
 	}
 
+	
 	public void saveUser() {
 		if (!toUpdate && newUser.getId() == null) {
 	        FacesMessage msg = new FacesMessage("User Created", newUser.getId() + "");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
+			newUser.getProperties().setPassword(UserService.hashPassword(newUser.getProperties().getPassword()));
+			newUser.getProperties().setRole(UserRoleEnum.USER);
 			UserService.create(newUser);
 		} else {	
 	        FacesMessage msg = new FacesMessage("User Edited", newUser.getId() + "");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
+			newUser.getProperties().setPassword(UserService.hashPassword(newUser.getProperties().getPassword()));
+			newUser.getProperties().setRole(UserRoleEnum.USER);
 			UserService.update(newUser);
 		}
 		prepareNewUser();

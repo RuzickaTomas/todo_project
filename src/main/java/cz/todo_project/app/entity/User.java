@@ -5,14 +5,21 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import cz.todo_project.app.enums.UserRoleEnum;
 
 
 @Entity
@@ -33,6 +40,10 @@ public class User implements Serializable {
 	
 	@Column
 	private LocalDate valid_to;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "properties", referencedColumnName = "id")
+	private UserProperties properties;
 	
 	
 	public Long getId() {
@@ -59,12 +70,16 @@ public class User implements Serializable {
 	public void setValid_to(LocalDate valid_to) {
 		this.valid_to = valid_to;
 	}
-	
+	public UserProperties getProperties() {
+		return properties;
+	}
+	public void setProperties(UserProperties properties) {
+		this.properties = properties;
+	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name, surname, valid_to);
+		return Objects.hash(id, name, properties, surname, valid_to);
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -74,15 +89,15 @@ public class User implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(id, other.id) && Objects.equals(name, other.name)
+		return Objects.equals(id, other.id) && Objects.equals(name, other.name) && properties == other.properties
 				&& Objects.equals(surname, other.surname) && Objects.equals(valid_to, other.valid_to);
 	}
-	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", surname=" + surname + ", valid_to=" + valid_to + "]";
+		return "User [id=" + id + ", name=" + name + ", surname=" + surname + ", valid_to=" + valid_to + ", properties="
+				+ properties + "]";
 	}
-	
+		
 	
 	
 	

@@ -3,6 +3,8 @@ package cz.todo_project.app.dto;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import cz.todo_project.app.enums.UserRoleEnum;
+
 public class UserDTO {
 
 	private Long id;
@@ -13,6 +15,8 @@ public class UserDTO {
 	
 	private LocalDate valid_to;
 	
+	private UserPropertiesDTO properties;
+		
 	public Long getId() {
 		return id;
 	}
@@ -38,6 +42,12 @@ public class UserDTO {
 		this.valid_to = valid_to;
 	}
 	
+	public UserPropertiesDTO getProperties() {
+		return properties;
+	}
+	public void setProperties(UserPropertiesDTO properties) {
+		this.properties = properties;
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, name, surname, valid_to);
@@ -52,7 +62,7 @@ public class UserDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		UserDTO other = (UserDTO) obj;
-		return Objects.equals(id, other.id) && Objects.equals(name, other.name)
+		return Objects.equals(id, other.id) && Objects.equals(name, other.name) 
 				&& Objects.equals(surname, other.surname) && Objects.equals(valid_to, other.valid_to);
 	}
 	
