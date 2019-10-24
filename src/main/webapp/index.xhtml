@@ -36,6 +36,13 @@ xmlns:p="http://primefaces.org/ui"
    	</style>
     
 	<f:ajax event="load" listener="#{taskView.onLoad}" />
+	<h:form id="usrForm">
+		<p:selectOneMenu value="#{taskView.filteredUser}">
+			<f:selectItem itemLabel="Vše" itemValue="#{taskView.defaultUser}"></f:selectItem>
+			<f:selectItems value="#{taskView.filteredUsers}" />
+			<p:ajax event="itemSelect" update=":tblForm" listener="#{taskView.onUserChange}" />
+		</p:selectOneMenu>
+	</h:form>
 	<h:form id="tblForm">
 	 <p:growl id="growl" showDetail="true" sticky="true" >
 	 	<p:autoUpdate />
@@ -100,7 +107,7 @@ xmlns:p="http://primefaces.org/ui"
 			<p:selectOneMenu id="assignee" value="#{taskView.newTask.user}" converter="#{userConverter}" rendered="#{taskView.toUpdate}">
 				<f:selectItems value="#{taskView.users}"  var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"  />
 			</p:selectOneMenu>	
-			<p:commandButton icon="pi pi-save" actionListener="#{taskView.saveTask}" onclick="PF('dialog').hide()" value="Uložit" update=":tblForm">
+			<p:commandButton icon="pi pi-save" actionListener="#{taskView.saveTask}" onclick="PF('dialog').hide()" value="Uložit" update=":tblForm :usrForm">
 			</p:commandButton>
 		</p:panelGrid>
 		</h:form>

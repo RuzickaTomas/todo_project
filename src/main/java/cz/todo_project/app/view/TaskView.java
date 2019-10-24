@@ -2,6 +2,9 @@ package cz.todo_project.app.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -9,8 +12,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
-import org.primefaces.PrimeFaces;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -41,7 +42,13 @@ public class TaskView implements InitializingBean {
     private List<TaskDTO> tasks = new ArrayList<>();
     private TaskDTO newTask;
     
+    private String filteredUser;
+    private Set<String> filteredUsers;
+    
+    private String defaultUser = Long.valueOf(0L).toString();
+    
     private List<UserDTO> users = new ArrayList<>();
+    
     
     private boolean toUpdate;
     
@@ -50,6 +57,7 @@ public class TaskView implements InitializingBean {
     	tasks = taskService.getAll();
     	newTask = new TaskDTO();
     	users = userService.getAll();
+    	refreshUser();
     } 
     
     public List<TaskDTO> getTasks() {
@@ -100,6 +108,7 @@ public class TaskView implements InitializingBean {
 		}
 		prepareNewTask();
 		refreshList();
+		refreshUser();
 	}
 	
 	
@@ -144,6 +153,11 @@ public class TaskView implements InitializingBean {
 	private void refreshList() {
     	tasks = taskService.getAll();
 	}
+	
+	private void refreshUser() {
+		filteredUsers = tasks.stream().filter(p -> p.getUser() !=  null).map(TaskDTO::getUser).map(m -> m.getId().toString()).collect(Collectors.toSet());
+	}
+	
 
 	public List<UserDTO> getUsers() {
 		return users;
@@ -152,6 +166,59 @@ public class TaskView implements InitializingBean {
 	public void setUsers(List<UserDTO> users) {
 		this.users = users;
 	}
+
+	public String getFilteredUser() {
+		return filteredUser;
+	}
+
+	public void setFilteredUser(String filteredUser) {
+		this.filteredUser = filteredUser;
+	}
+
+	public Set<String> getFilteredUsers() {
+		return filteredUsers;
+	}
+
+	public void setFilteredUsers(Set<String> filteredUsers) {
+		this.filteredUsers = filteredUsers;
+	}
+	
+	public void onUserChange() {
+		refreshList();
+		filterUser(null);
+	}
+	
+	public void filterUser(UserDTO user) {
+		if (user == null) {
+		 if (!Long.valueOf(0L).toString().equals(filteredUser)) {
+		 	tasks =	tasks.stream().filter(filterUserPredicate(filteredUser)).collect(Collectors.toList());
+		 	return;
+		 } 
+		} else {
+		 	tasks =	tasks.stream().filter(filterUserPredicate(user)).collect(Collectors.toList());	
+		}
+	}
+	
+	private Predicate<TaskDTO> filterUserPredicate(Object o) {
+		if (o instanceof UserDTO) {
+			return t -> t.getUser() != null && t.getUser().equals(o);
+		} 
+		if (o instanceof String) {
+			return t -> t.getUser() != null && t.getUser().getId().toString().equals(o);
+		}
+		return null;		
+	}
+
+	public String getDefaultUser() {
+		return defaultUser;
+	}
+
+	public void setDefaultUser(String defaultUser) {
+		this.defaultUser = defaultUser;
+	}
+	
+	
+	
 
     
     
