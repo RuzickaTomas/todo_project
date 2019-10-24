@@ -13,6 +13,8 @@ public class UserDTO {
 	
 	private String surname;
 	
+	private String email;
+	
 	private LocalDate valid_to;
 	
 	private UserPropertiesDTO properties;
@@ -47,6 +49,13 @@ public class UserDTO {
 	}
 	public void setProperties(UserPropertiesDTO properties) {
 		this.properties = properties;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	@Override
 	public int hashCode() {

@@ -19,21 +19,33 @@ xmlns:p="http://primefaces.org/ui"
 	
 	<p class="h1">h1. Bootstrap heading</p>
 	
-	
-	<h:form>
-
-		<h:outputLabel for="usrName" value="Name" />
+	<div style="width: 100%; heigh: auto;">
+	<h:form style="border-bottom: gray 1px solid; width: 90%; margin: 0 auto; display: block;">
+		<h:panelGrid columns="2">
+		<h:outputLabel for="usrName" value="Name: " />
 		<p:inputText id="usrName" value="#{userView.newUser.name}" />
 
-		<h:outputLabel for="usrSurname" value="Surname" />
+		<h:outputLabel for="usrSurname" value="Surname: " />
 		<p:inputText id="usrSurname" value="#{userView.newUser.surname}" />
 
-		<h:outputLabel for="usrPwd1" value="Password" />
-		<p:inputText id="usrPwd1" value="#{userView.newUser.properties.password}" />	
+		<h:outputLabel for="email" value="E-mail: " />
+		<p:inputText id="email" required="true" value="#{userView.newUser.email}" 
+					 equiredMessage="Please enter your email address."
+					 validatorMessage="Invalid email format" >
+				<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"></f:validateRegex>
+		</p:inputText>
 
-		<p:commandButton value="Save" action="#{userView.saveUser}" update="userTbl" />	
+
+		<h:outputLabel for="usrPwd1" value="Password: " />
+		<p:password id="usrPwd1" required="true" match="usrPwd2" feedback="true" inline="true" value="#{userView.newUser.properties.password}" />	
+		
+		<h:outputLabel for="usrPwd2" value="Confirm password: " />
+		<p:password id="usrPwd2" required="true" feedback="true" inline="true" value="#{userView.newUser.properties.confirmPassword}" />
+		
+		</h:panelGrid>
+		<p:commandButton value="Save" action="#{userView.saveUser}" update="@form userTbl" />	
 	</h:form>
-	
+	</div>
 	<p:dataTable id="userTbl" value="#{userView.users}" var="usr">
 			<p:column headerText="Id" >
 				<h:outputText  value="#{usr.id}" />

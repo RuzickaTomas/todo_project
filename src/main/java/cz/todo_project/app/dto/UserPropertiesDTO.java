@@ -8,6 +8,7 @@ public class UserPropertiesDTO {
 
 	private Long id;
 	private String password;
+	private String confirmPassword;
 	private UserRoleEnum role;
 	
 	public Long getId() {
@@ -29,7 +30,14 @@ public class UserPropertiesDTO {
 		this.role = role;
 	}
 	
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
 	@Override
+	
 	public int hashCode() {
 		return Objects.hash(id, password, role);
 	}
@@ -46,9 +54,17 @@ public class UserPropertiesDTO {
 		return Objects.equals(id, other.id) && Objects.equals(password, other.password) && role == other.role;
 	}
 	
+	private String anonymizePassword(String password) {
+		String result = "";
+		for (char c  : password.toCharArray()) {
+			result += '*';
+		}
+		return result;
+	}
+	
 	@Override
-	public String toString() {
-		return "UserPropertiesDTO [id=" + id + ", password=" + password + ", role=" + role + "]";
+	public String toString() {		
+		return "UserPropertiesDTO [id=" + id + ", password=" + anonymizePassword(password) + ", role=" + role + "]";
 	}
 	
 	

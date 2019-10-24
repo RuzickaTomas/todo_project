@@ -76,6 +76,7 @@ public class UserService {
 		to.setId(from.getId());
 		to.setName(from.getName());
 		to.setSurname(from.getSurname());
+		to.setEmail(from.getEmail());
 		to.setValid_to(from.getValid_to());
 		if (from.getProperties() != null) {
 		to.setProperties(transform(from.getProperties()));
@@ -91,6 +92,7 @@ public class UserService {
 		to.setId(from.getId());
 		to.setName(from.getName());
 		to.setSurname(from.getSurname());
+		to.setEmail(from.getEmail());
 		to.setValid_to(from.getValid_to());
 		if (from.getProperties() != null) {
 		to.setProperties(transform(from.getProperties()));

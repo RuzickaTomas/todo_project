@@ -3,23 +3,17 @@ package cz.todo_project.app.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import cz.todo_project.app.enums.UserRoleEnum;
 
 
 @Entity
@@ -37,6 +31,9 @@ public class User implements Serializable {
 	
 	@Column
 	private String surname;
+
+	@Column
+	private String email;
 	
 	@Column
 	private LocalDate valid_to;
@@ -75,6 +72,13 @@ public class User implements Serializable {
 	}
 	public void setProperties(UserProperties properties) {
 		this.properties = properties;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	@Override
 	public int hashCode() {
