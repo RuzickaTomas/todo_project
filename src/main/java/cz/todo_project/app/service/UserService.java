@@ -32,6 +32,12 @@ public class UserService {
 		return res;
 	}
 	
+	public UserDTO getByUsername(String email) {
+		User user = userDao.getByUsername(email);
+		UserDTO res = transform(user);
+		return res;
+	}
+	
 	@Transactional
 	public void create(UserDTO entity) {
 	 User domain = transform(entity);

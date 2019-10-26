@@ -1,28 +1,33 @@
 package cz.todo_project.app;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.ProviderManagerBuilder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
+import cz.todo_project.app.enums.UserRoleEnum;
 import cz.todo_project.app.handler.RestSuccessHandler;
+import cz.todo_project.app.service.UserDetailService;
 
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter  {
 	
+	@Autowired
+	private UserDetailService userDetailService;
 	//TODO enable OAuth
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-	    auth.inMemoryAuthentication()
-	        .withUser("admin").password(encoder().encode("adminPass")).roles("ADMIN")
-	        .and()
-	        .withUser("user").password(encoder().encode("userPass")).roles("USER");
+	    auth.userDetailsService(userDetailService).passwordEncoder(encoder());
 	}
 	 
 	
@@ -38,15 +43,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter  {
 		    .exceptionHandling()
 		    .authenticationEntryPoint(new RestEntryPoint())
 		    .and()
-		    .authorizeRequests()
+		    .authorizeRequests().anyRequest().hasAnyRole(UserRoleEnum.ADMIN.name(), UserRoleEnum.USER.name(), UserRoleEnum.DEV.name())
 		    .antMatchers("/rest").authenticated()
 		    .antMatchers("/rest/task/**").hasRole("ADMIN")
 		    .and()
-		    .formLogin()
-		    .successHandler(new RestSuccessHandler())
-		    .failureHandler(new SimpleUrlAuthenticationFailureHandler())
+		    .formLogin().loginPage("/pages/login.xhtml").loginProcessingUrl("/pages/main.xhtml").permitAll()
 		    .and()
-		    .logout();
+		    .formLogin().successHandler(new RestSuccessHandler()).and().
+		     formLogin().failureHandler(new SimpleUrlAuthenticationFailureHandler())
+		    .and()
+		    .logout().logoutSuccessUrl("/login").permitAll();
 
 	}
 	

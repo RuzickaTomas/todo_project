@@ -15,5 +15,12 @@ public class UserDAOImpl extends BaseDAOImpl<Long, User> {
 		User user = query.getSingleResult();
 		return user;
 	}
+	
+	public User getByUsername(String email) {
+		TypedQuery<User> query = getCurrentSession().createQuery("select u from "+ User.class.getSimpleName() + "u join u.properties where u.email = :email ", User.class);
+		query.setParameter("email", email);
+		User user = query.getSingleResult();
+		return user;
+	}
 
 }

@@ -1,5 +1,6 @@
 package cz.todo_project.app.view;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
+import org.primefaces.PrimeFaces;
+import org.primefaces.context.PrimeFacesContext;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -91,6 +94,9 @@ public class UserView implements InitializingBean {
 		refreshList();
 	}
 	
+	public void loginUser() throws IOException {
+		PrimeFacesContext.getCurrentInstance().getExternalContext().redirect("/todo_project/pages/main.xhtml");
+	}
 	
 	
 	public void updateUser(UserDTO User) {

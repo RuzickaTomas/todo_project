@@ -17,9 +17,27 @@ xmlns:p="http://primefaces.org/ui"
 <h:body>
 	<h:outputText value="Hl. strana"></h:outputText>
 	
-	<p class="h1">h1. Bootstrap heading  ${name}</p>
+	<p class="h1">h1. Bootstrap heading</p>
 	
 	<div style="width: 100%; heigh: auto;">
+	<h:form style="border-bottom: gray 1px solid; width: 90%; margin: 0 auto; display: block;">
+		<h:panelGrid columns="2">
+
+		<h:outputLabel for="email" value="E-mail: " />
+		<p:inputText id="email" required="true" value="#{userView.newUser.email}" 
+					 equiredMessage="Please enter your email address."
+					 validatorMessage="Invalid email format" >
+				<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"></f:validateRegex>
+		</p:inputText>
+
+		<h:outputLabel for="usrPwd1" value="Password: " />
+		<p:password id="usrPwd1" required="true" value="#{userView.newUser.properties.password}" />	
+		
+		</h:panelGrid>
+		<p:commandButton value="Login" action="#{userView.loginUser}" update="@form" />	
+	</h:form>
+	</div>
+	
 	<h:form style="border-bottom: gray 1px solid; width: 90%; margin: 0 auto; display: block;">
 		<h:panelGrid columns="2">
 		<h:outputLabel for="usrName" value="Name: " />
@@ -43,22 +61,8 @@ xmlns:p="http://primefaces.org/ui"
 		<p:password id="usrPwd2" required="true" feedback="true" inline="true" value="#{userView.newUser.properties.confirmPassword}" />
 		
 		</h:panelGrid>
-		<p:commandButton value="Save" action="#{userView.saveUser}" update="@form userTbl" />	
+		<p:commandButton value="Save" action="#{userView.saveUser}" update="@form" />	
 	</h:form>
-	</div>
-	<p:dataTable id="userTbl" value="#{userView.users}" var="usr">
-			<p:column headerText="Id" >
-				<h:outputText  value="#{usr.id}" />
-			</p:column>
-			<p:column headerText="Name" >
-				<h:outputText  value="#{usr.name}" />
-			</p:column>
-			<p:column headerText="Surname" >
-				<h:outputText  value="#{usr.surname}" />
-			</p:column>
-			<p:column headerText="Valid to" >
-				<h:outputText  value="#{usr.valid_to}" />
-			</p:column>
-	</p:dataTable>
+
 </h:body>
 </html>
