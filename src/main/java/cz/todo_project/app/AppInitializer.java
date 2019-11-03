@@ -15,11 +15,9 @@ public class AppInitializer extends FacesInitializer implements WebApplicationIn
 	
 	public void onStartup(ServletContext servletContext) throws ServletException {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        context.register(SpringConfig.class, SpringSecurityConfig.class);
-        //context.refresh();
+        context.register(SpringConfig.class);
         context.setServletContext(servletContext);
         servletContext.setInitParameter("primefaces.THEME", "luna-blue");
-        servletContext.addListener(new ContextLoaderListener(context));
                 
         ServletRegistration.Dynamic servlet = servletContext.addServlet(
         "dispatcherExample", new DispatcherServlet(context));

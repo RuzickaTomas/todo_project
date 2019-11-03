@@ -19,6 +19,11 @@ xmlns:p="http://primefaces.org/ui"
 	
 	<p class="h1">h1. Bootstrap heading  ${name}</p>
 	
+	 <h:form onsubmit="this.action='#{request.contextPath}/pages/main.xhtml?logout=true';"
+    class="logout-form">
+    <p:commandButton value="Logout" ajax="false" />
+  </h:form>
+	
 	<div style="width: 100%; heigh: auto;">
 	<h:form style="border-bottom: gray 1px solid; width: 90%; margin: 0 auto; display: block;">
 		<h:panelGrid columns="2">

@@ -10,12 +10,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import cz.todo_project.app.entity.User;
+
 public class UserDetailsImpl implements UserDetails {
 
-	private UserDTO user;
+	private User user;
 	
 	
-	public UserDetailsImpl(UserDTO user) {
+	public UserDetailsImpl(User user) {
 		this.user = user;
 	}
 	

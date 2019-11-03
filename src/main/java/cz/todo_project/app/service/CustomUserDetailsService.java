@@ -6,19 +6,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import cz.todo_project.app.dto.UserDTO;
+import cz.todo_project.app.dao.UserDAOImpl;
 import cz.todo_project.app.dto.UserDetailsImpl;
+import cz.todo_project.app.entity.User;
 
 @Service
-public class UserDetailService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	private UserService service;
+	private UserDAOImpl service;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		UserDTO user  = null;
+		User user  = null;
 		try {
 		user = service.getByUsername(username);
 		} catch (Exception e) {
