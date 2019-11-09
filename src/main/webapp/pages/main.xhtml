@@ -17,10 +17,9 @@ xmlns:p="http://primefaces.org/ui"
 	
 	<p class="h1">h1. Bootstrap heading  ${name}</p>
 	
-	 <h:form onsubmit="this.action='#{request.contextPath}/pages/main.xhtml?logout=true';"
-    class="logout-form">
-    <p:commandButton value="Logout" ajax="false" />
-  </h:form>
+	<h:form onsubmit="this.action='#{request.contextPath}/logout';">
+   			 <p:commandButton value="Logout" ajax="false" />
+  	</h:form>
 	
 		<p:dataTable id="userTbl" value="#{userView.users}" var="usr">
 			<p:column headerText="Id" >

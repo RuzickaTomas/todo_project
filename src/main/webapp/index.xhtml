@@ -59,7 +59,7 @@ xmlns:p="http://primefaces.org/ui"
 		<p:password id="usrPwd2" required="true" feedback="true" inline="true" value="#{userView.newUser.properties.confirmPassword}" />
 		
 		</h:panelGrid>
-		<p:commandButton value="Save" action="#{userView.saveUser}" update="@form userTbl" />	
+		<p:commandButton value="Save" action="#{userView.saveUser}" update="@form" />	
 	</h:form>
 	</div>
     

@@ -95,16 +95,18 @@ public class SpringConfig extends WebSecurityConfigurerAdapter implements WebMvc
 			    .exceptionHandling()
 			    .and()
 			    .authorizeRequests()
+			    .antMatchers("/javax.faces.resource/**").permitAll()
 			    //.antMatchers("/rest", "/pages/main.xhtml").authenticated()
 			    //.antMatchers("/rest/task/**").hasRole(UserRoleEnum.ADMIN.name())
-			    .antMatchers("/pages/main.xhtml").hasRole(UserRoleEnum.USER.name())
+			    //hasRole comes with ROLE_ prefix, to aviod additional configuration i used authority
+			    .antMatchers("/pages/main.xhtml").hasAuthority(UserRoleEnum.USER.name())
 			    .anyRequest().authenticated()
 			    .and()
 			    .formLogin().loginPage("/pages/login.xhtml")
 			    	.failureUrl("/pages/login.xhtml?error=true")
 			    	.permitAll()
 			    .and()
-			    .logout().logoutUrl("/pages/main.xhtml?logout=true").logoutSuccessUrl("/pages/login.xhtml").permitAll();
+			    .logout().logoutSuccessUrl("/pages/login.xhtml").permitAll();
 
 		}
 
