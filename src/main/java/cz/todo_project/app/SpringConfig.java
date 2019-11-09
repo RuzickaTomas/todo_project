@@ -101,7 +101,6 @@ public class SpringConfig extends WebSecurityConfigurerAdapter implements WebMvc
 			    .anyRequest().authenticated()
 			    .and()
 			    .formLogin().loginPage("/pages/login.xhtml")
-			    	.defaultSuccessUrl("/pages/main.xthml")
 			    	.failureUrl("/pages/login.xhtml?error=true")
 			    	.permitAll()
 			    .and()

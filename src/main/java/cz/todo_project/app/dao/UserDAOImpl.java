@@ -12,7 +12,7 @@ public class UserDAOImpl extends BaseDAOImpl<Long, User> {
 
 	@Transactional
 	public User getByName(String name) {
-		TypedQuery<User> query = getCurrentSession().createQuery("select u from "+ User.class.getSimpleName() + "u where u.name = :name ", User.class);
+		TypedQuery<User> query = getCurrentSession().createQuery("select u from "+ User.class.getSimpleName() + " u where u.name = :name ", User.class);
 		query.setParameter("name", name);
 		User user = query.getSingleResult();
 		return user;
@@ -20,7 +20,7 @@ public class UserDAOImpl extends BaseDAOImpl<Long, User> {
 	
 	@Transactional(readOnly = true)
 	public User getByUsername(String email) {
-		TypedQuery<User> query = getCurrentSession().createQuery("select u from "+ User.class.getSimpleName() + "u join u.properties where u.email = :email ", User.class);
+		TypedQuery<User> query = getCurrentSession().createQuery("select u from "+ User.class.getSimpleName() + " u join u.properties where u.email = :email ", User.class);
 		query.setParameter("email", email);
 		User user = query.getSingleResult();
 		return user;
