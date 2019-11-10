@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:p="http://primefaces.org/ui"
+>
+
+<h:head>
+    <title>Spring + JSF</title>
+</h:head>
+<h:body>
+    
+    <h3>Spring + JSF Example - todo</h3>
+       <h:outputText value = "#{taskView.msg}"/>
+   
+   	<style>
+   	.low {
+   		border-left: 30px solid green !important;
+   	}
+   	.medium {
+   		border-left: 30px solid yellow !important;
+   	}
+   	.high {
+   		border-left: 30px solid orange !important;
+   	}
+   	.immediate {
+   		border-left: 30px solid red !important;
+   	}
+   	
+   	#dialog_content > form  table tr td {
+		border: none;
+   	}
+   	</style>
+    
+    <div style="width: 100%; heigh: auto;">
+	<h:form style="border-bottom: gray 1px solid; width: 90%; margin: 0 auto; display: block;">
+		<h:panelGrid columns="2">
+		<h:outputLabel for="usrName" value="Name: " />
+		<p:inputText id="usrName" value="#{userView.newUser.name}" />
+
+		<h:outputLabel for="usrSurname" value="Surname: " />
+		<p:inputText id="usrSurname" value="#{userView.newUser.surname}" />
+
+		<h:outputLabel for="email" value="E-mail: " />
+		<p:inputText id="email" required="true" value="#{userView.newUser.email}" 
+					 equiredMessage="Please enter your email address."
+					 validatorMessage="Invalid email format" >
+				<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"></f:validateRegex>
+		</p:inputText>
+
+
+		<h:outputLabel for="usrPwd1" value="Password: " />
+		<p:password id="usrPwd1" required="true" match="usrPwd2" feedback="true" inline="true" value="#{userView.newUser.properties.password}" />	
+		
+		<h:outputLabel for="usrPwd2" value="Confirm password: " />
+		<p:password id="usrPwd2" required="true" feedback="true" inline="true" value="#{userView.newUser.properties.confirmPassword}" />
+		
+		</h:panelGrid>
+		<p:commandButton value="Save" action="#{userView.saveUser}" update="@form" />	
+	</h:form>
+	</div>
+    
+    
+	<f:ajax event="load" listener="#{taskView.onLoad}" />
+	<h:form id="usrForm">
+		<p:selectOneMenu value="#{taskView.filteredUser}">
+			<f:selectItem itemLabel="Vše" itemValue="#{taskView.defaultUser}"></f:selectItem>
+			<f:selectItems value="#{taskView.filteredUsers}" />
+			<p:ajax event="itemSelect" update=":tblForm" listener="#{taskView.onUserChange}" />
+		</p:selectOneMenu>
+	</h:form>
+	<h:form id="tblForm">
+	 <p:growl id="growl" showDetail="true" sticky="true" >
+	 	<p:autoUpdate />
+	 </p:growl>  
+	
+		<p:dataTable id="tasksTbl" var="tsk" value="#{taskView.tasks}">
+			<p:autoUpdate />
+		    <p:column headerText="Priorita" sortBy="#{tsk.priority}" styleClass="#{tsk.color}">
+		        <h:outputText  value="#{tsk.priority}" />
+		    </p:column>
+		 
+		    <p:column headerText="Název">
+                <h:outputText value="#{tsk.name}" />
+		    </p:column>
+		 
+		    <p:column headerText="Plán">
+		        <h:outputText value="#{tsk.guess}" />
+		    </p:column>
+		 
+		    <p:column headerText="Skutečnost">
+		        <h:outputText value="#{tsk.real}" />
+		    </p:column>
+		    
+		    <p:column style="width:45px">
+				<p:commandButton icon="pi pi-pencil" action="#{taskView.updateTask(tsk)}" style="width: 100%; height: 100%;" onclick="PF('dialog').show()" />
+        	</p:column>
+        	<p:column style="width:45px">
+        	     <p:commandButton icon="pi pi-trash" style="background-color: red !important; border-color: red !important; width: 100%; height: 100%;"  action="#{taskView.deleteTask(tsk.id)}" >
+            		<p:ajax event="click" listener="#{taskView.refresh}" />
+            	</p:commandButton>
+        	</p:column>
+		    
+		    
+		</p:dataTable>
+	
+		<p:commandButton style="border-radius: 25px; width: 50px; height: 50px;" icon="pi pi-plus" action="#{taskView.prepareNewTask}" onclick="PF('dialog').show();"></p:commandButton>
+	</h:form>
+	    
+	<p:dialog id="dialog" widgetVar="dialog" modal="true" style="width: 200px;">
+		<h:form>
+		<p:autoUpdate />
+		<p:panelGrid id="grid" columns="2">
+			<h:outputLabel for="newTaskPrio" value="Priorita" />
+			<p:selectOneMenu id="newTaskPrio" value="#{taskView.newTask.priority}" >
+				<f:selectItems value="#{taskView.priorityEnums}" />
+			</p:selectOneMenu>
+			
+			<h:outputLabel for="newTaskName" value="Název" />
+			<p:inputText id="newTaskName" value="#{taskView.newTask.name}" />
+		
+			<h:outputLabel for="newTaskGuess" value="Odhad. čas" />
+			<p:inputText id="newTaskGuess" value="#{taskView.newTask.guess}" >
+			 	<p:keyFilter regEx="/[\d]/"/> 
+			</p:inputText>
+
+			<h:outputLabel for="newTaskReal" value="Real. čas" rendered="#{taskView.toUpdate}"/>
+			<p:inputText id="newTaskReal" value="#{taskView.newTask.real}" rendered="#{taskView.toUpdate}" >
+				<p:keyFilter regEx="/[\d]/"/> 
+			</p:inputText>	
+			
+			<h:outputLabel for="assignee"  value="Osoba"  rendered="#{taskView.toUpdate}" />
+			<p:selectOneMenu id="assignee" value="#{taskView.newTask.user}" converter="#{userConverter}" rendered="#{taskView.toUpdate}">
+				<f:selectItems value="#{taskView.users}"  var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"  />
+			</p:selectOneMenu>	
+			<p:commandButton icon="pi pi-save" actionListener="#{taskView.saveTask}" onclick="PF('dialog').hide()" value="Uložit" update=":tblForm :usrForm">
+			</p:commandButton>
+		</p:panelGrid>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>
