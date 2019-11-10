@@ -13,15 +13,20 @@ xmlns:p="http://primefaces.org/ui"
     <title>Main page</title>
  </h:head>
 <h:body>
+     <h:outputStylesheet library="css" name="bootstrap.css" />
+     <h:outputStylesheet library="js" name="bootstrap.js" />
+
 	<h:outputText value="Hl. strana"></h:outputText>
 	
-	<p class="h1">h1. Bootstrap heading</p>
+	<h1>h1. Bootstrap heading</h1>
 	
 	<div style="width: 100%; heigh: auto;">
+		<!-- TODO add better error message and catch exceptions -->
+		<p:outputLabel value="Username or password is incorrect, please try again!" styleClass="red" rendered="${!empty param['error']}" />
 	
 	<h:form prependId="false" style="border-bottom: gray 1px solid; width: 90%; margin: 0 auto; display: block;">
-
-		<h:panelGrid columns="2">
+	
+		<h:panelGrid columns="6">
 		
 		<h:outputLabel for="username" value="E-mail: " />
 		<p:inputText id="username" required="true"
@@ -32,9 +37,10 @@ xmlns:p="http://primefaces.org/ui"
 
 		<h:outputLabel for="password" value="Password: " />
 		<p:password id="password" required="true" />	
-		
+
+		<p:commandButton value="Login" ajax="false" />			
 		</h:panelGrid>
-		<p:commandButton value="Login" ajax="false" />	
+
 	</h:form>
 	</div>
 	
