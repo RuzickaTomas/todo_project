@@ -102,7 +102,7 @@ public class SpringConfig extends WebSecurityConfigurerAdapter implements WebMvc
 			    .antMatchers("/pages/main.xhtml").hasAuthority(UserRoleEnum.USER.name())
 			    .anyRequest().authenticated()
 			    .and()
-			    .formLogin().loginPage("/pages/login.xhtml")
+			    .formLogin().loginPage("/pages/login.xhtml").loginProcessingUrl("/log")
 			    	.failureUrl("/pages/login.xhtml?error=true")
 			    	.permitAll()
 			    .and()
