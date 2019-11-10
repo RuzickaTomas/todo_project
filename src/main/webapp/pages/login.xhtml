@@ -14,36 +14,74 @@ xmlns:p="http://primefaces.org/ui"
  </h:head>
 <h:body>
      <h:outputStylesheet library="css" name="bootstrap.css" />
-     <h:outputStylesheet library="js" name="bootstrap.js" />
+     <h:outputScript library="js" name="bootstrap.js" />
 
-	<h:outputText value="Hl. strana"></h:outputText>
+	<nav class="navbar navbar-dark bg-dark">
+		 <a class="navbar-brand" href="#">TODO</a>
+		 
 	
-	<h1>h1. Bootstrap heading</h1>
-	
-	<div style="width: 100%; heigh: auto;">
-		<!-- TODO add better error message and catch exceptions -->
+	<!-- TODO add better error message and catch exceptions -->
 		<p:outputLabel value="Username or password is incorrect, please try again!" styleClass="red" rendered="${!empty param['error']}" />
-	
-	<h:form prependId="false" style="border-bottom: gray 1px solid; width: 90%; margin: 0 auto; display: block;">
+		 
+	<h:form prependId="false" class="form-inline">
 	
 		<h:panelGrid columns="6">
 		
-		<h:outputLabel for="username" value="E-mail: " />
+		<h:outputLabel for="username" class="text-white" value="E-mail: " />
 		<p:inputText id="username" required="true"
 					 equiredMessage="Please enter your email address."
 					 validatorMessage="Invalid email format" >
 				<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"></f:validateRegex>
 		</p:inputText>
 
-		<h:outputLabel for="password" value="Password: " />
+		<h:outputLabel for="password" class="text-white" value="Password: " />
 		<p:password id="password" required="true" />	
 
 		<p:commandButton value="Login" ajax="false" />			
 		</h:panelGrid>
 
 	</h:form>
+
+	</nav>
+	<div class="ui-g">
+    	<div class="ui-g-6">
+    		<div style="width: 100%; height: 75%; background-color: gray;"></div>
+    	</div>
+    	<div class="ui-g-6">
+	    	<h:form class="ui-g-12">
+				<h:panelGrid columns="1">
+				<h:outputLabel for="usrName" value="Name: " />
+				<p:inputText id="usrName" value="#{userView.newUser.name}" />
+		
+				<h:outputLabel for="usrSurname" value="Surname: " />
+				<p:inputText id="usrSurname" value="#{userView.newUser.surname}" />
+		
+				<h:outputLabel for="email" value="E-mail: " />
+				<p:inputText id="email" required="true" value="#{userView.newUser.email}" 
+							 equiredMessage="Please enter your email address."
+							 validatorMessage="Invalid email format" >
+						<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"></f:validateRegex>
+				</p:inputText>
+		
+		
+				<h:outputLabel for="usrPwd1" value="Password: " />
+				<p:password id="usrPwd1" required="true" match="usrPwd2" feedback="true" inline="true" value="#{userView.newUser.properties.password}" />	
+				
+				<h:outputLabel for="usrPwd2" value="Confirm password: " />
+				<p:password id="usrPwd2" required="true" feedback="true" inline="true" value="#{userView.newUser.properties.confirmPassword}" />
+				
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+				
+				<p:commandButton value="Registrate" action="#{userView.saveUser}" update="@form" />	
+				</h:panelGrid>			
+			</h:form>
+    		
+    	</div>
 	</div>
 	
-
+<footer class="bg-dark text-white mt-auto">
+	<p class="h5">test</p>
+</footer>
 </h:body>
 </html>
