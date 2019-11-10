@@ -63,6 +63,7 @@ public class UserView implements InitializingBean {
 	
 	public void prepareNewUser() {
 		newUser = new UserDTO();
+		newUser.setProperties(new UserPropertiesDTO());
 		toUpdate = false;
 	}
 	
@@ -78,13 +79,13 @@ public class UserView implements InitializingBean {
 	
 	public void saveUser() {
 		if (!toUpdate && newUser.getId() == null) {
-	        FacesMessage msg = new FacesMessage("User Created", newUser.getId() + "");
+	        FacesMessage msg = new FacesMessage("User Created", newUser.getEmail() + "");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			newUser.getProperties().setPassword(UserService.hashPassword(newUser.getProperties().getPassword()));
 			newUser.getProperties().setRole(UserRoleEnum.USER);
 			UserService.create(newUser);
 		} else {	
-	        FacesMessage msg = new FacesMessage("User Edited", newUser.getId() + "");
+	        FacesMessage msg = new FacesMessage("User Edited", newUser.getEmail() + "");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			newUser.getProperties().setPassword(UserService.hashPassword(newUser.getProperties().getPassword()));
 			newUser.getProperties().setRole(UserRoleEnum.USER);

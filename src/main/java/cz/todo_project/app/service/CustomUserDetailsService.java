@@ -1,9 +1,5 @@
 package cz.todo_project.app.service;
 
-import javax.faces.context.FacesContext;
-
-import org.primefaces.PrimeFaces;
-import org.primefaces.context.PrimeFacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

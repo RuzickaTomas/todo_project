@@ -21,24 +21,18 @@ xmlns:p="http://primefaces.org/ui"
 		 
 	
 	<!-- TODO add better error message and catch exceptions -->
-		<p:outputLabel value="Username or password is incorrect, please try again!" styleClass="red" rendered="${!empty param['error']}" />
 		 
-	<form action="../j_spring_security_check"  class="form-inline">
+	<form action="../doLogin" method="post" class="form-inline">
 	
-		<h:panelGrid columns="6">
-		
-		<h:outputLabel for="username" class="text-white" value="E-mail: " />
-		<p:inputText id="username" required="true"
-					 equiredMessage="Please enter your email address."
-					 validatorMessage="Invalid email format" >
-				<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"></f:validateRegex>
-		</p:inputText>
-
-		<h:outputLabel for="password" class="text-white" value="Password: " />
-		<p:password id="password" required="true" />	
-
-		<button type="submit" class="btn btn-primary" ajax="false" >Login</button>			
-		</h:panelGrid>
+	 <div class="form-group">
+		<label for="username" class="text-white mr-1">E-mail:</label>
+		<input type="text" class="form-control mr-1" name="username" />
+	</div>
+	<div class="form-group">
+		<label for="password" class="text-white mr-1">Password: </label>
+		<input type="password" class="form-control mr-1" name="password"/>	
+	</div>
+		<button type="submit" class="btn btn-primary">Login</button>			
 
 	</form>
 
@@ -49,6 +43,8 @@ xmlns:p="http://primefaces.org/ui"
     	</div>
     	<div class="ui-g-6">
 	    	<h:form class="ui-g-12">
+	    		 <p:growl id="growl" showDetail="true" sticky="true" />
+	    	
 				<div class="form-group">
 					<h:outputLabel for="usrName" value="Name: " />
 					<p:inputText id="usrName" class="form-control" value="#{userView.newUser.name}" />
@@ -75,7 +71,7 @@ xmlns:p="http://primefaces.org/ui"
 				</div>
 				
 				
-				<p:commandButton value="Registrate" action="#{userView.saveUser}" />	
+				<p:commandButton value="Registrate" action="#{userView.saveUser}" update="@form" />	
 			</h:form>
     		
     	</div>

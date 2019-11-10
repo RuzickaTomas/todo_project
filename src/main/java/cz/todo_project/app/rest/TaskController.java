@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,6 +56,11 @@ public class TaskController {
 	public String testPost(@RequestBody(required = false) TaskDTO task) {
 		return "POST TEST";
 	}
+	
+    @RequestMapping(value = "/log", method = RequestMethod.GET)
+    public String login() {
+        return "/pages/login.xhtml";
+    }
 	
 	@GetMapping(value = "/pages/main.xhtml")
 	public String retriveLoggedUser(Model model, Principal principal) {
