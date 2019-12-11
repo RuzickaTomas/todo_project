@@ -22,6 +22,11 @@ xmlns:p="http://primefaces.org/ui"
 	
 	<!-- TODO add better error message and catch exceptions -->
 		 
+	<h:form>
+	 	<p:growl id="growl" showDetail="true" sticky="true" >
+	 		<p:autoUpdate />
+	 	</p:growl>
+	</h:form>	 
 	<form action="../doLogin" method="post" class="form-inline">
 	
 	 <div class="form-group">
@@ -33,7 +38,6 @@ xmlns:p="http://primefaces.org/ui"
 		<input type="password" class="form-control mr-1" name="password"/>	
 	</div>
 		<button type="submit" class="btn btn-primary">Login</button>			
-
 	</form>
 
 	</nav>
