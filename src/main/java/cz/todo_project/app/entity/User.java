@@ -3,14 +3,18 @@ package cz.todo_project.app.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -41,6 +45,11 @@ public class User implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "properties", referencedColumnName = "id")
 	private UserProperties properties;
+	
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "todo_user_friend", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "friend_id"))
+	private Set<Friend> friends;
 	
 	
 	public Long getId() {
@@ -80,6 +89,14 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public Set<Friend> getFriends() {
+		return friends;
+	}
+	public void setFriends(Set<Friend> friends) {
+		this.friends = friends;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, name, properties, surname, valid_to);

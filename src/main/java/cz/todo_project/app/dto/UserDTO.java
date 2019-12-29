@@ -2,6 +2,7 @@ package cz.todo_project.app.dto;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Set;
 
 import cz.todo_project.app.enums.UserRoleEnum;
 
@@ -16,6 +17,8 @@ public class UserDTO {
 	private String email;
 	
 	private LocalDate valid_to;
+	
+	private Set<FriendDTO> friends;
 	
 	private UserPropertiesDTO properties;
 		
@@ -56,6 +59,13 @@ public class UserDTO {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public Set<FriendDTO> getFriends() {
+		return friends;
+	}
+	public void setFriends(Set<FriendDTO> friends) {
+		this.friends = friends;
 	}
 	@Override
 	public int hashCode() {

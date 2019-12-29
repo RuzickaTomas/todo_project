@@ -2,25 +2,27 @@ package cz.todo_project.app.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 
 import cz.todo_project.app.enums.FriendStateEnum;
 
 @Entity
-@Table(name = "TODO_FRIEND", schema = "public")
+@Table(name = "todo_friend", schema = "public")
 public class Friend implements Serializable {
 
 	
@@ -33,9 +35,9 @@ public class Friend implements Serializable {
 	@Column
 	private Long userId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id", foreignKey=@ForeignKey(name="todo_friend_fk"))
-	private User user;
+
+	@ManyToMany(mappedBy = "friends")
+	private Set<User> users;
 	
 	@Column
 	@Enumerated(EnumType.ORDINAL)
@@ -57,12 +59,12 @@ public class Friend implements Serializable {
 		this.userId = userId;
 	}
 
-	public User getUser() {
-		return user;
+	public Set<User> getUser() {
+		return users;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUser(Set<User> users) {
+		this.users = users;
 	}
 
 	public FriendStateEnum getState() {
@@ -75,7 +77,7 @@ public class Friend implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, state, user, userId);
+		return Objects.hash(id, state, users, userId);
 	}
 
 	@Override
@@ -87,13 +89,13 @@ public class Friend implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Friend other = (Friend) obj;
-		return Objects.equals(id, other.id) && state == other.state && Objects.equals(user, other.user)
+		return Objects.equals(id, other.id) && state == other.state && Objects.equals(users, other.users)
 				&& Objects.equals(userId, other.userId);
 	}
 
 	@Override
 	public String toString() {
-		return "Friend [id=" + id + ", userId=" + userId + ", user=" + user + ", state=" + state + "]";
+		return "Friend [id=" + id + ", userId=" + userId + ", user=" + users + ", state=" + state + "]";
 	}
 	
 	

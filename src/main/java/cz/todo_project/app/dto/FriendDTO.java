@@ -1,6 +1,7 @@
 package cz.todo_project.app.dto;
 
 import java.util.Objects;
+import java.util.Set;
 
 import cz.todo_project.app.enums.FriendStateEnum;
 
@@ -8,7 +9,7 @@ public class FriendDTO {
 
 	private Long id;
 	private Long userId;
-	private UserDTO user;
+	private Set<UserDTO> user;
 	private FriendStateEnum state;
 	
 	public Long getId() {
@@ -23,10 +24,10 @@ public class FriendDTO {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-	public UserDTO getUser() {
+	public Set<UserDTO> getUser() {
 		return user;
 	}
-	public void setUser(UserDTO user) {
+	public void setUser(Set<UserDTO> user) {
 		this.user = user;
 	}
 	public FriendStateEnum getState() {
