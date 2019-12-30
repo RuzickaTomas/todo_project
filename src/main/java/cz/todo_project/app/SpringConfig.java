@@ -111,7 +111,7 @@ public class SpringConfig extends WebSecurityConfigurerAdapter implements WebMvc
 			    	.failureUrl("/pages/login.xhtml?error=true")
 			    	.permitAll()
 			    .and()
-			    .logout().logoutSuccessUrl("/pages/login.xhtml").permitAll();
+			    .logout().logoutUrl("/logout").logoutSuccessUrl("/pages/login.xhtml").permitAll();
 
 		}
 

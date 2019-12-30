@@ -6,13 +6,13 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +26,7 @@ import cz.todo_project.app.service.UserService;
 @Component
 @ManagedBean
 @ViewScoped
-public class TaskView implements InitializingBean {
+public class TaskView {
 	
 	//TODO add validations
 	
@@ -52,7 +52,7 @@ public class TaskView implements InitializingBean {
     
     private boolean toUpdate;
     
-    
+    @PostConstruct
     public void init() {
     	tasks = taskService.getAll();
     	newTask = new TaskDTO();
@@ -134,12 +134,6 @@ public class TaskView implements InitializingBean {
         return msgService.getMsg();
     }
 
-
-    //replacement of init @PostConstruct
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		init();
-	}
     
 	
 	public void onLoad(AjaxBehaviorEvent event) {

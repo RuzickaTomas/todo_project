@@ -48,6 +48,18 @@ public class TaskService {
 	  	}
 	  	return taskRes;
 	}
+	
+	
+	@Transactional(readOnly = true)
+	public List<TaskDTO> getByUsername(String email) {
+		List<Task> tasks = taskDao.getByUsername(email);
+		List<TaskDTO> taskRes = new ArrayList<>();
+	  	for (var task  : tasks) {
+	  		TaskDTO tsk = transform(task);
+	  		taskRes.add(tsk);
+	  	}
+	  	return taskRes;
+	}
 
 	@Transactional(readOnly = true)
 	public TaskDTO get(Long id) {

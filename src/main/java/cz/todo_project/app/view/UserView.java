@@ -4,20 +4,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
-import org.primefaces.PrimeFaces;
 import org.primefaces.context.PrimeFacesContext;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import cz.todo_project.app.dto.UserDTO;
+import cz.todo_project.app.dto.UserDetailsImpl;
 import cz.todo_project.app.dto.UserPropertiesDTO;
+import cz.todo_project.app.entity.User;
 import cz.todo_project.app.enums.PriorityEnum;
 import cz.todo_project.app.enums.UserRoleEnum;
 import cz.todo_project.app.service.UserService;
@@ -25,30 +30,31 @@ import cz.todo_project.app.service.UserService;
 @Component
 @ManagedBean
 @ViewScoped
-public class UserView implements InitializingBean {
+public class UserView {
     
     @Autowired
-    private UserService UserService;
+    private UserService userService;
     
-    private List<UserDTO> Users = new ArrayList<>();
+    private List<UserDTO> users = new ArrayList<>();
     private UserDTO newUser;
     
     private boolean toUpdate;
     
-    
-    public void init() {
-    	Users = UserService.getAll();
-    	newUser = new UserDTO();
+    @PostConstruct
+    public void init() {  
+		users = userService.getAll();
+       	newUser = new UserDTO();
     	newUser.setProperties(new UserPropertiesDTO());
-    } 
+    }
+    
     
     public List<UserDTO> getUsers() {
-		return Users;
+    	return users;
 	}
 
 
-	public void setUsers(List<UserDTO> Users) {
-		this.Users = Users;
+	public void setusers(List<UserDTO> users) {
+		this.users = users;
 	}
 	
 	
@@ -81,15 +87,15 @@ public class UserView implements InitializingBean {
 		if (!toUpdate && newUser.getId() == null) {
 	        FacesMessage msg = new FacesMessage("User Created", newUser.getEmail() + "");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-			newUser.getProperties().setPassword(UserService.hashPassword(newUser.getProperties().getPassword()));
+			newUser.getProperties().setPassword(userService.hashPassword(newUser.getProperties().getPassword()));
 			newUser.getProperties().setRole(UserRoleEnum.USER);
-			UserService.create(newUser);
+			userService.create(newUser);
 		} else {	
 	        FacesMessage msg = new FacesMessage("User Edited", newUser.getEmail() + "");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-			newUser.getProperties().setPassword(UserService.hashPassword(newUser.getProperties().getPassword()));
+			newUser.getProperties().setPassword(userService.hashPassword(newUser.getProperties().getPassword()));
 			newUser.getProperties().setRole(UserRoleEnum.USER);
-			UserService.update(newUser);
+			userService.update(newUser);
 		}
 		prepareNewUser();
 		refreshList();
@@ -107,7 +113,7 @@ public class UserView implements InitializingBean {
 	
 	
 	public void deleteUser(Long id) {
-		UserService.delete(id);
+		userService.delete(id);
 		refreshList();
 	}
 
@@ -115,25 +121,19 @@ public class UserView implements InitializingBean {
 	 public PriorityEnum[] getPriorityEnums() {
 		 return PriorityEnum.values(); 
 	 }
-
-
-    //replacement of init @PostConstruct
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		init();
-	}
+	 
+	 @PreDestroy
+	 public void destroy() {
+		 users.clear();
+	 }
     
-	
-	public void onLoad(AjaxBehaviorEvent event) {
-		init();
-	}
 
 	public void refresh(AjaxBehaviorEvent event) {
 		refreshList();
 	}
 
 	private void refreshList() {
-    	Users = UserService.getAll();
+    	users = userService.getAll();
 	}
 
     

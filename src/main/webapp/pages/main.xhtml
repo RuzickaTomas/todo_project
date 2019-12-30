@@ -7,6 +7,7 @@ xmlns:h="http://java.sun.com/jsf/html"
 xmlns:f="http://java.sun.com/jsf/core"
 xmlns:ui="http://java.sun.com/jsf/facelets"
 xmlns:p="http://primefaces.org/ui"
+xmlns:c="http://java.sun.com/jsp/jstl/core"
 	>
 
 <h:head>
@@ -15,13 +16,14 @@ xmlns:p="http://primefaces.org/ui"
 <h:body>
 	<h:outputText value="Hl. strana"></h:outputText>
 	
-	<p class="h1">h1. Bootstrap heading  ${name}</p>
+	<p class="h1">h1. Bootstrap heading  ${authorizedUserView.currentUser.email}</p>
 	
-	<h:form onsubmit="this.action='#{request.contextPath}/logout';">
-   			 <p:commandButton value="Logout" ajax="false" />
-  	</h:form>
+	<c:set var="url" value="#{request.contextPath.concat('/logout')}" />
+	<a href="#{url}">logout</a>
 	
-		<p:dataTable id="userTbl" value="#{userView.users}" var="usr">
+
+	
+		<p:dataTable id="userTbl" value="#{authorizedUserView.users}" var="usr">
 			<p:column headerText="Id" >
 				<h:outputText  value="#{usr.id}" />
 			</p:column>
@@ -35,5 +37,36 @@ xmlns:p="http://primefaces.org/ui"
 				<h:outputText  value="#{usr.valid_to}" />
 			</p:column>
 	</p:dataTable>
+	
+	
+		<p:dataTable id="tasksTbl" var="tsk" value="#{authorizedUserView.tasks}">
+			<p:autoUpdate />
+		    <p:column headerText="Priorita" sortBy="#{tsk.priority}" styleClass="#{tsk.color}">
+		        <h:outputText  value="#{tsk.priority}" />
+		    </p:column>
+		 
+		    <p:column headerText="Název">
+                <h:outputText value="#{tsk.name}" />
+		    </p:column>
+		 
+		    <p:column headerText="Plán">
+		        <h:outputText value="#{tsk.guess}" />
+		    </p:column>
+		 
+		    <p:column headerText="Skutečnost">
+		        <h:outputText value="#{tsk.real}" />
+		    </p:column>
+		    
+		    <p:column style="width:45px">
+				<p:commandButton icon="pi pi-pencil" action="#{taskView.updateTask(tsk)}" style="width: 100%; height: 100%;" onclick="PF('dialog').show()" />
+        	</p:column>
+        	<p:column style="width:45px">
+        	     <p:commandButton icon="pi pi-trash" style="background-color: red !important; border-color: red !important; width: 100%; height: 100%;"  action="#{taskView.deleteTask(tsk.id)}" >
+            		<p:ajax event="click" listener="#{taskView.refresh}" />
+            	</p:commandButton>
+        	</p:column>
+		    
+		    
+		</p:dataTable>
 </h:body>
 </html>
