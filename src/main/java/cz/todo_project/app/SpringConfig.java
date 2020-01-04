@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -26,6 +27,7 @@ import cz.todo_project.app.entity.User;
 import cz.todo_project.app.entity.UserProperties;
 import cz.todo_project.app.enums.UserRoleEnum;
 import cz.todo_project.app.service.CustomUserDetailsService;
+import cz.todo_project.app.service.LogoutHandler;
 
 
 @Configuration
@@ -56,6 +58,11 @@ public class SpringConfig extends WebSecurityConfigurerAdapter implements WebMvc
 	        transactionManager.setSessionFactory(getSessionFactory().getObject());
 	        return transactionManager;
 
+	    }
+	    
+	    @Bean
+	    public LogoutSuccessHandler getSuccessHandler() {
+	    	return new LogoutHandler();
 	    }
 		    
 	    @Bean
@@ -111,7 +118,8 @@ public class SpringConfig extends WebSecurityConfigurerAdapter implements WebMvc
 			    	.failureUrl("/pages/login.xhtml?error=true")
 			    	.permitAll()
 			    .and()
-			    .logout().logoutUrl("/logout").logoutSuccessUrl("/pages/login.xhtml").permitAll();
+			    .logout().logoutUrl("/logout")
+			    		 .logoutSuccessHandler(this.getSuccessHandler()).permitAll();
 
 		}
 

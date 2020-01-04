@@ -62,11 +62,7 @@ public class AuthorizedUserView {
 		}
 		return userView.getUsers();
 	}
-	
-	public void clearUsername() {
-		currentUser = null;
-		PrimeFaces.current().executeScript("this.action=#{request.contextPath.concat('/logout')}");
-	}
+
 	
 	private String getAuthUsername() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
