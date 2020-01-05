@@ -134,7 +134,7 @@ xmlns:p="http://primefaces.org/ui"
 			
 			<h:outputLabel for="assignee"  value="Osoba"  rendered="#{taskView.toUpdate}" />
 			<p:selectOneMenu id="assignee" value="#{taskView.newTask.user}" converter="#{userConverter}" rendered="#{taskView.toUpdate}">
-				<f:selectItems value="#{userView.users}"  var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"  />
+				<f:selectItems value="#{userView.friends}"  var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"  />
 			</p:selectOneMenu>	
 			<p:commandButton icon="pi pi-save" actionListener="#{taskView.saveTask}" onclick="PF('dialog').hide()" value="Uložit" update=":tblForm :usrForm">
 			</p:commandButton>

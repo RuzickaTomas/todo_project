@@ -29,14 +29,15 @@ public class AuthorizedUserView {
 	UserView userView;
 	
 	@Autowired
-	private TaskService taskService;
+	private TaskView taskView;
 	
 	@Autowired
 	private UserService userService;
 	
 	private UserDTO currentUser;
 	
-	private List<TaskDTO> tasks = new ArrayList<>();
+	private final List<TaskDTO> tasks = new ArrayList<>();
+	
 	
 	@PostConstruct
 	public void init() {     	
@@ -47,9 +48,11 @@ public class AuthorizedUserView {
 	}
 	
 	public List<TaskDTO> getTasks() {
+		tasks.clear();
 		if (getAuthUsername() != null) {
-			tasks.clear();
-			tasks.addAll(taskService.getByUsername(getAuthUsername()));
+			 taskView.setFilteredUser(currentUser.getEmail());
+			 taskView.filterUser(currentUser);
+			 tasks.addAll(taskView.getTasks());
 		}
 		return tasks;
 	}
@@ -58,7 +61,7 @@ public class AuthorizedUserView {
 		if (getAuthUsername() != null) {
 			userView.getUsers().clear();
 			currentUser = userService.getByUsername(getAuthUsername());
-     		userView.getUsers().add(currentUser);
+			userView.getUsers().add(currentUser);
 		}
 		return userView.getUsers();
 	}

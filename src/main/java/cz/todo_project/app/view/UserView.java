@@ -36,6 +36,8 @@ public class UserView {
     private UserService userService;
     
     private List<UserDTO> users = new ArrayList<>();
+    private List<UserDTO> friends = new ArrayList<>();
+    
     private UserDTO newUser;
     
     private boolean toUpdate;
@@ -43,6 +45,7 @@ public class UserView {
     @PostConstruct
     public void init() {  
 		users = userService.getAll();
+		friends = userService.getAll();
        	newUser = new UserDTO();
     	newUser.setProperties(new UserPropertiesDTO());
     }
@@ -50,6 +53,17 @@ public class UserView {
     
     public List<UserDTO> getUsers() {
     	return users;
+	}
+
+    
+
+	public List<UserDTO> getFriends() {
+		return friends;
+	}
+
+
+	public void setFriends(List<UserDTO> friends) {
+		this.friends = friends;
 	}
 
 

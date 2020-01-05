@@ -42,6 +42,9 @@ public class SpringConfig extends WebSecurityConfigurerAdapter implements WebMvc
 	
 	    @Autowired
 		CustomUserDetailsService userdetailsService;
+	    
+	    @Autowired
+	    LogoutHandler logoutHandler;
 		
 	
 		@Bean
@@ -60,10 +63,6 @@ public class SpringConfig extends WebSecurityConfigurerAdapter implements WebMvc
 
 	    }
 	    
-	    @Bean
-	    public LogoutSuccessHandler getSuccessHandler() {
-	    	return new LogoutHandler();
-	    }
 		    
 	    @Bean
 	    public BCryptPasswordEncoder getBEncoder() {
@@ -119,7 +118,7 @@ public class SpringConfig extends WebSecurityConfigurerAdapter implements WebMvc
 			    	.permitAll()
 			    .and()
 			    .logout().logoutUrl("/logout")
-			    		 .logoutSuccessHandler(this.getSuccessHandler()).permitAll();
+			    		 .logoutSuccessHandler(logoutHandler).permitAll();
 
 		}
 

@@ -14,17 +14,35 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
     <title>Main page</title>
 </h:head>
 <h:body>
-		
+	 <h:outputStylesheet library="css" name="bootstrap.css" />
+     <h:outputScript library="js" name="bootstrap.js" />
+
+	<nav class="navbar navbar-dark bg-dark">
+		 <a class="navbar-brand" href="./pages/login.xhtml">TODO</a>
+		 
+	
+	
+
+	<div class="dropdown">
+	  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	     	<h:form>
+				<p:poll interval="1" update="username" />
+				<h:outputText id="username" value="#{authorizedUserView.currentUser.email}"/>
+			</h:form>
+	  </button>
+	  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+	    <h:outputLink styleClass="dropdown-item" value="#{request.contextPath.concat('/logout')}"  >
+			<h:outputText value="Logout"  />
+		</h:outputLink>
+	  </div>
+	</div>
+
+	</nav>	
 
 	
-	<h:form>
-		<p:poll interval="1" update="username" />
-		<h:outputText id="username" value="#{authorizedUserView.currentUser.email}"/>
-	</h:form>
+
 	
-	<h:outputLink value="#{request.contextPath.concat('/logout')}"  >
-		<h:outputText value="Logout"  />
-	</h:outputLink>
+	
 	
 		<p:dataTable id="userTbl" value="#{authorizedUserView.users}" var="usr">
 			<p:column headerText="Id" >
@@ -42,8 +60,8 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
 	</p:dataTable>
 	
 	
+	<h:form id="taskForm">
 		<p:dataTable id="tasksTbl" var="tsk" value="#{authorizedUserView.tasks}">
-			<p:autoUpdate />
 		    <p:column headerText="Priorita" sortBy="#{tsk.priority}" styleClass="#{tsk.color}">
 		        <h:outputText  value="#{tsk.priority}" />
 		    </p:column>
@@ -61,15 +79,45 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
 		    </p:column>
 		    
 		    <p:column style="width:45px">
-				<p:commandButton icon="pi pi-pencil" action="#{taskView.updateTask(tsk)}" style="width: 100%; height: 100%;" onclick="PF('dialog').show()" />
+				<p:commandButton icon="pi pi-pencil" action="#{taskView.updateTask(tsk)}" style="width: 100%; height: 100%;" update=":dialog" oncomplete="PF('dialog').show()" />
         	</p:column>
         	<p:column style="width:45px">
         	     <p:commandButton icon="pi pi-trash" style="background-color: red !important; border-color: red !important; width: 100%; height: 100%;"  action="#{taskView.deleteTask(tsk.id)}" >
             		<p:ajax event="click" listener="#{taskView.refresh}" />
             	</p:commandButton>
         	</p:column>
-		    
-		    
 		</p:dataTable>
+		</h:form>
+		
+		<p:dialog id="dialog" widgetVar="dialog" modal="true" style="width: 200px;">
+		<h:form>
+		<p:panelGrid id="grid" columns="2">
+			<h:outputLabel for="newTaskPrio" value="Priorita" />
+			<p:selectOneMenu id="newTaskPrio" value="#{taskView.newTask.priority}" >
+				<f:selectItems value="#{taskView.priorityEnums}" />
+			</p:selectOneMenu>
+			
+			<h:outputLabel for="newTaskName" value="Název" />
+			<p:inputText id="newTaskName" value="#{taskView.newTask.name}" />
+		
+			<h:outputLabel for="newTaskGuess" value="Odhad. čas" />
+			<p:inputText id="newTaskGuess" value="#{taskView.newTask.guess}" >
+			 	<p:keyFilter regEx="/[\d]/"/> 
+			</p:inputText>
+
+			<h:outputLabel for="newTaskReal" value="Real. čas" rendered="#{taskView.toUpdate}"/>
+			<p:inputText id="newTaskReal" value="#{taskView.newTask.real}" rendered="#{taskView.toUpdate}" >
+				<p:keyFilter regEx="/[\d]/"/> 
+			</p:inputText>	
+			
+			<h:outputLabel for="assignee"  value="Osoba"  rendered="#{taskView.toUpdate}" />
+			<p:selectOneMenu id="assignee" value="#{taskView.newTask.user}" converter="#{userConverter}" rendered="#{taskView.toUpdate}">
+				<f:selectItems value="#{userView.users}"  var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"  />
+			</p:selectOneMenu>	
+			<p:commandButton icon="pi pi-save" actionListener="#{taskView.saveTask}" onclick="PF('dialog').hide()" value="Uložit" update=":taskForm">
+			</p:commandButton>
+		</p:panelGrid>
+		</h:form>
+	</p:dialog>
 </h:body>
 </html>
