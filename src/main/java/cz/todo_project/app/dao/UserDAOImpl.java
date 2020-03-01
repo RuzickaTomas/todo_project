@@ -20,6 +20,9 @@ public class UserDAOImpl extends BaseDAOImpl<Long, User> {
 	
 	@Transactional(readOnly = true)
 	public User getByUsername(String email) {
+		if (email == null) {
+			return null;
+		}
 		TypedQuery<User> query = getCurrentSession().createQuery("select u from "+ User.class.getSimpleName() + " u join u.properties where u.email = :email ", User.class);
 		query.setParameter("email", email);
 		User user = query.getSingleResult();

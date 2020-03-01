@@ -87,6 +87,9 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
             	</p:commandButton>
         	</p:column>
 		</p:dataTable>
+		<div style="text-align: center;">
+		<p:commandButton style="border-radius: 25px; width: 50px; height: 50px;" icon="pi pi-plus" action="#{taskView.prepareNewTask}" onclick="PF('dialog').show();"></p:commandButton>
+		</div>
 		</h:form>
 		
 		<p:dialog id="dialog" widgetVar="dialog" modal="true" style="width: 200px;">

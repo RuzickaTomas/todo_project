@@ -14,10 +14,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import cz.todo_project.app.dto.TaskDTO;
 import cz.todo_project.app.dto.UserDTO;
+import cz.todo_project.app.dto.UserDetailsImpl;
 import cz.todo_project.app.enums.PriorityEnum;
 import cz.todo_project.app.service.DefaultMsgService;
 import cz.todo_project.app.service.TaskService;
@@ -48,6 +51,7 @@ public class TaskView {
     private String defaultUser = Long.valueOf(0L).toString();
     
     private List<UserDTO> users = new ArrayList<>();
+    private UserDTO currentUser = null;
     
     
     private boolean toUpdate;
@@ -57,8 +61,10 @@ public class TaskView {
     	tasks = taskService.getAll();
     	newTask = new TaskDTO();
     	users = userService.getAll();
+    	currentUser = userService.getByUsername(getAuthUsername());
     	refreshUser();
-    } 
+    }
+    
     
     public List<TaskDTO> getTasks() {
 		return tasks;
@@ -100,6 +106,9 @@ public class TaskView {
 		newTask.setReal(temp.longValue());
         FacesMessage msg = new FacesMessage("Task Created", newTask.getId() + "");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+		if (newTask.getUser() == null) { 
+			newTask.setUser(getCurrentUser());
+		}  
 		taskService.create(newTask);
 		} else {	
 	        FacesMessage msg = new FacesMessage("Task Edited", newTask.getId() + "");
@@ -209,6 +218,16 @@ public class TaskView {
 
 	public void setDefaultUser(String defaultUser) {
 		this.defaultUser = defaultUser;
+	}
+	
+	private UserDTO getCurrentUser() {
+	 	return userService.getByUsername(getAuthUsername());
+	}
+	
+	
+	private String getAuthUsername() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return auth != null && auth.isAuthenticated() ? ((UserDetailsImpl) auth.getPrincipal()).getUsername() : null;
 	}
 	
 	
