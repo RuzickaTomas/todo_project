@@ -27,6 +27,7 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
 	  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	     	<h:form>
 				<p:poll interval="1" update="username" />
+				<p:poll interval="30" update=":taskForm"  />
 				<h:outputText id="username" value="#{authorizedUserView.currentUser.email}"/>
 			</h:form>
 	  </button>

@@ -14,9 +14,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 import cz.todo_project.app.dto.TaskDTO;
 import cz.todo_project.app.dto.UserDTO;
@@ -27,8 +30,7 @@ import cz.todo_project.app.service.TaskService;
 import cz.todo_project.app.service.UserService;
 
 @Component
-@ManagedBean
-@ViewScoped
+@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class TaskView {
 	
 	//TODO add validations
