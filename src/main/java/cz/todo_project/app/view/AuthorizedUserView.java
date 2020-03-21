@@ -9,20 +9,23 @@ import javax.faces.bean.ViewScoped;
 
 import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 import cz.todo_project.app.dto.TaskDTO;
 import cz.todo_project.app.dto.UserDTO;
 import cz.todo_project.app.dto.UserDetailsImpl;
+import cz.todo_project.app.enums.PriorityEnum;
 import cz.todo_project.app.service.TaskService;
 import cz.todo_project.app.service.UserService;
 
 
 @Component
-@ManagedBean
-@ViewScoped
+@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class AuthorizedUserView {
 
 	@Autowired
@@ -41,6 +44,10 @@ public class AuthorizedUserView {
 	
 	@PostConstruct
 	public void init() {     	
+		if (!getAuthUsername().isBlank()) {
+			currentUser = userService.getByUsername(getAuthUsername());
+		}
+
 	}
 	
 	public UserDTO getCurrentUser() {
@@ -64,6 +71,10 @@ public class AuthorizedUserView {
 			userView.getUsers().add(currentUser);
 		}
 		return userView.getUsers();
+	}
+	
+	public String sortByPriority(PriorityEnum prio) {
+		return prio.name();
 	}
 
 	

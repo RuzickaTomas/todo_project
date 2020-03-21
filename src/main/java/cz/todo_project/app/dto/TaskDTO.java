@@ -52,16 +52,16 @@ public class TaskDTO {
 	}
 	
 	public String getColor() {
-		if (PriorityEnum.LOW.equals(priority)) {
+		if (PriorityEnum.LOW.name().equals(priority)) {
 			return "low";
 		}
-		if (PriorityEnum.MEDIUM.equals(priority)) {
+		if (PriorityEnum.MEDIUM.name().equals(priority)) {
 			return "medium";
 		}
-		if (PriorityEnum.HIGH.equals(priority)) {
+		if (PriorityEnum.HIGH.name().equals(priority)) {
 			return "high";
 		}
-		if (PriorityEnum.IMMEDIATE.equals(priority)) {
+		if (PriorityEnum.IMMEDIATE.name().equals(priority)) {
 			return "immediate";
 		}
 		return "";

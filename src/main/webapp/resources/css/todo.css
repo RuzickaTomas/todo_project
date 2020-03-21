@@ -1,4 +1,17 @@
 @charset "UTF-8";
-h1 {
-	color: red;
+.low {
+	border-left: 30px solid green !important;
+}
+.medium {
+	border-left: 30px solid yellow !important;
+}
+.high {
+	border-left: 30px solid orange !important;
+}
+.immediate {
+	border-left: 30px solid red !important;
+}
+
+#dialog_content > form  table tr td {
+	border: none;
 }
