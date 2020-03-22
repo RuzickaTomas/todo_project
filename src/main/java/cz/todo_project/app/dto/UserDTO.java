@@ -1,6 +1,8 @@
 package cz.todo_project.app.dto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,9 +20,9 @@ public class UserDTO {
 	
 	private LocalDate valid_to;
 	
-	private Set<FriendDTO> friends;
+	private Set<FriendDTO> friends = new HashSet<>();
 	
-	private Set<FriendRequestDTO> friendRequests;
+	private Set<FriendRequestDTO> friendRequests = new HashSet<>();;
  	
 	private UserPropertiesDTO properties;
 		
@@ -54,6 +56,16 @@ public class UserDTO {
 	}
 	public void setProperties(UserPropertiesDTO properties) {
 		this.properties = properties;
+	}
+	
+	public void addFriendRequest(FriendRequestDTO request) {
+		friendRequests.add(request);
+		request.getUsers().add(this);
+	}
+	
+	public void removeFriendRequest(FriendRequestDTO request) {
+		friendRequests.remove(request);
+		request.getUsers().remove(this);
 	}
 	
 	public String getEmail() {

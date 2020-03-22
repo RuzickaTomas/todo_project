@@ -2,6 +2,7 @@ package cz.todo_project.app.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -29,7 +30,7 @@ public class FriendRequest implements Serializable {
 	private Long requestedUserId;
 
 	@ManyToMany(mappedBy = "requests", cascade = CascadeType.ALL)
-	private Set<User> users;
+	private Set<User> users = new HashSet<>();
 	
 	@Column
 	private LocalDateTime denied;

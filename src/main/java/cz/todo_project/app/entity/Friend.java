@@ -1,6 +1,7 @@
 package cz.todo_project.app.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -37,7 +38,7 @@ public class Friend implements Serializable {
 	
 
 	@ManyToMany(mappedBy = "friends")
-	private Set<User> users;
+	private Set<User> users = new HashSet<>();
 	
 	@Column
 	@Enumerated(EnumType.ORDINAL)

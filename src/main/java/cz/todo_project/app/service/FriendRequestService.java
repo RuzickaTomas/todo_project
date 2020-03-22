@@ -53,7 +53,7 @@ public class FriendRequestService {
 		to.setAccepted(from.getAccepted());
 		to.setDenied(from.getDenied());
 		to.setRequestedUserId(from.getRequestedUserId());
-		to.setUsers(CollectionsTransformUtil.transform(from.getUsers(), userService::transform));
+		//to.setUsers(CollectionsTransformUtil.transform(from.getUsers(), userService::transform));
 		return to;
 	}
 	
@@ -66,7 +66,7 @@ public class FriendRequestService {
 		to.setAccepted(from.getAccepted());
 		to.setDenied(from.getDenied());
 		to.setRequestedUserId(from.getRequestedUserId());
-		to.setUsers(CollectionsTransformUtil.transform(from.getUsers(), userService::transform));
+		//to.setUsers(CollectionsTransformUtil.transform(from.getUsers(), userService::transform));
 		return to;
 	}
 	

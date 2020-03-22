@@ -27,12 +27,13 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
 		</div>
 		
 	<div class="ui-g-6">
-		<h:form>
-		<p:autoComplete id="findUsers" value="#{authorizedUserView.requestFriend}" var="friend" itemLabel="#{friend.name} #{friend.surname}" itemValue="#{friend}" converter="#{userConverter}" completeMethod="#{authorizedUserView.findUsers}" />
-		<p:commandButton icon="pi pi-check" title="Send" actionListener="#{authorizedUserView.sendInvitation}" />		
+		<h:form class="ui-g-9">
+		<p:commandButton icon="pi pi-check" style="float: right;" title="Send" actionListener="#{authorizedUserView.sendInvitation}" />		
+ 		<p:autoComplete id="findUsers" style="float: right;" placeholder="Find a friend" value="#{authorizedUserView.requestFriend}" var="friend" itemLabel="#{friend.name} #{friend.surname}" itemValue="#{friend}" converter="#{userConverter}" completeMethod="#{authorizedUserView.findUsers}" />
  
 		</h:form>
-		<div class="dropdown" style="float: right;">
+		<div class="ui-g-3">
+		<div class="dropdown">
 	
 		  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		     	<h:form>
@@ -44,6 +45,7 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
 				<h:outputText value="Logout"  />
 			</h:outputLink>
 		  </div>
+		</div>
 		</div>
 	</div>
 	</nav>	

@@ -1,6 +1,5 @@
 package cz.todo_project.app.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import cz.todo_project.app.dto.UserDTO;
 import cz.todo_project.app.dto.UserPropertiesDTO;
 import cz.todo_project.app.entity.User;
 import cz.todo_project.app.entity.UserProperties;
-import cz.todo_project.app.enums.UserRoleEnum;
 import cz.todo_project.app.view.converter.CollectionsTransformUtil;
 
 @Service
@@ -21,6 +19,9 @@ public class UserService {
 
 	@Autowired
 	private UserDAOImpl userDao;
+	
+	@Autowired
+	private FriendRequestService requestService;
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -33,6 +34,7 @@ public class UserService {
 		return res;
 	}
 	
+	@Transactional(readOnly = true)
 	public UserDTO getByUsername(String email) {
 		User user = userDao.getByUsername(email);
 		UserDTO res = transform(user);
@@ -82,6 +84,11 @@ public class UserService {
 		if (from.getProperties() != null) {
 		to.setProperties(transform(from.getProperties()));
 		}
+		if (from.getRequests() != null) {
+			to.setFriendRequests(CollectionsTransformUtil.transform(from.getRequests(), requestService::transform));
+		}
+
+		
 		return to;
 	}
 
@@ -97,6 +104,9 @@ public class UserService {
 		to.setValid_to(from.getValid_to());
 		if (from.getProperties() != null) {
 		to.setProperties(transform(from.getProperties()));
+		}
+		if (from.getFriendRequests() != null) {
+			to.setRequests(CollectionsTransformUtil.transform(from.getFriendRequests(), requestService::transform));
 		}
 		return to;
 	}

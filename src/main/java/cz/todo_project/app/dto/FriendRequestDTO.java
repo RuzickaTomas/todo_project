@@ -1,16 +1,14 @@
 package cz.todo_project.app.dto;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.HashSet;
 import java.util.Set;
-
-import cz.todo_project.app.enums.FriendStateEnum;
 
 public class FriendRequestDTO {
 
 	private Long id;
 	private Long requestedUserId;
-	private Set<UserDTO> users;
+	private Set<UserDTO> users = new HashSet<>();;
 	private LocalDateTime denied;
 	private LocalDateTime accepted;
 	

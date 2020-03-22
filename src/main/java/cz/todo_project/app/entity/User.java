@@ -2,6 +2,7 @@ package cz.todo_project.app.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -47,13 +48,13 @@ public class User implements Serializable {
 	private UserProperties properties;
 	
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinTable(name = "todo_user_friend", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "friend_id"))
-	private Set<Friend> friends;
+	private Set<Friend> friends = new HashSet<>();;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinTable(name = "todo_user_friend_request", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "friend_req_id"))
-	private Set<FriendRequest> requests;
+	private Set<FriendRequest> requests = new HashSet<>();
 	
 	
 	
@@ -102,6 +103,12 @@ public class User implements Serializable {
 		this.friends = friends;
 	}
 	
+	public Set<FriendRequest> getRequests() {
+		return requests;
+	}
+	public void setRequests(Set<FriendRequest> requests) {
+		this.requests = requests;
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, name, properties, surname, valid_to);

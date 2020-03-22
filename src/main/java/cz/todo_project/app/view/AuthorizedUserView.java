@@ -105,12 +105,8 @@ public class AuthorizedUserView {
 		}
 		System.out.println( "Invitation was sent" + requestFriend.getId());
 		FriendRequestDTO request = new FriendRequestDTO();
-		Set<UserDTO> user = new HashSet<>();
-		user.add(currentUser);
-		request.setUsers(user);
 		request.setRequestedUserId(requestFriend.getId());
-		FriendRequest friendReq  = friendRequestService.update(request);
-		currentUser.setFriendRequests(CollectionsTransformUtil.transform(Set.of(friendReq), friendRequestService::transform));
+		currentUser.addFriendRequest(request);
 		userService.update(currentUser);
 	}
 	
