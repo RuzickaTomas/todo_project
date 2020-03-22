@@ -20,6 +20,8 @@ public class UserDTO {
 	
 	private Set<FriendDTO> friends;
 	
+	private Set<FriendRequestDTO> friendRequests;
+ 	
 	private UserPropertiesDTO properties;
 		
 	public Long getId() {
@@ -66,6 +68,13 @@ public class UserDTO {
 	}
 	public void setFriends(Set<FriendDTO> friends) {
 		this.friends = friends;
+	}
+	
+	public Set<FriendRequestDTO> getFriendRequests() {
+		return friendRequests;
+	}
+	public void setFriendRequests(Set<FriendRequestDTO> friendRequests) {
+		this.friendRequests = friendRequests;
 	}
 	@Override
 	public int hashCode() {

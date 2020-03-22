@@ -22,6 +22,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
 import cz.todo_project.app.entity.Friend;
+import cz.todo_project.app.entity.FriendRequest;
 import cz.todo_project.app.entity.Task;
 import cz.todo_project.app.entity.User;
 import cz.todo_project.app.entity.UserProperties;
@@ -51,7 +52,9 @@ public class SpringConfig extends WebSecurityConfigurerAdapter implements WebMvc
 	    public LocalSessionFactoryBean getSessionFactory() {
  			LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
 			factoryBean.setConfigLocation(applicationContext.getResource("classpath:hibernate-config.cfg.xml"));
-			factoryBean.setAnnotatedClasses(new Class[] {Task.class, User.class, Friend.class, UserProperties.class});
+			factoryBean.setAnnotatedClasses(new Class[] {Task.class, User.class,
+														 Friend.class, UserProperties.class,
+														 FriendRequest.class});
 			return factoryBean;
 		}
 		

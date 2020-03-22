@@ -18,9 +18,16 @@
   	<postgresql.version>42.2.6</postgresql.version> 
   	<hibernate.version>5.4.2.Final</hibernate.version>
   	<jackson.version>2.9.8</jackson.version>
+  	<apache.lang.version>3.9</apache.lang.version>
   </properties>
   
   	<dependencies>
+	  	<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>${apache.lang.version}</version>
+	    </dependency>
+  	
   		<!-- *********** Spring *********** -->
 	    <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
 		<dependency>

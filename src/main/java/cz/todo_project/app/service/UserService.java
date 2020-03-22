@@ -14,6 +14,7 @@ import cz.todo_project.app.dto.UserPropertiesDTO;
 import cz.todo_project.app.entity.User;
 import cz.todo_project.app.entity.UserProperties;
 import cz.todo_project.app.enums.UserRoleEnum;
+import cz.todo_project.app.view.converter.CollectionsTransformUtil;
 
 @Service
 public class UserService {
@@ -57,13 +58,9 @@ public class UserService {
 
 	@Transactional(readOnly = true)
 	public List<UserDTO> getAll() {
-	  	List<User> Users = userDao.getAll();
-	  	List<UserDTO> UserRes = new ArrayList<>();
-	  	for (var User  : Users) {
-	  		UserDTO tsk = transform(User);
-	  		UserRes.add(tsk);
-	  	}
-	  	return UserRes;
+	  	List<User> users = userDao.getAll();
+	  	List<UserDTO> userRes = CollectionsTransformUtil.transform(users, this::transform);
+	  	return userRes;
 	}
 
 	@Transactional(readOnly = true)
@@ -71,8 +68,6 @@ public class UserService {
 		 User domain = userDao.get(id);
 		 return transform(domain);
 	}
-
-	
 	
 	public UserDTO transform(User from) {
 		if (from == null) {

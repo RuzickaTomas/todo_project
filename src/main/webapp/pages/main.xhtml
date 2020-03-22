@@ -22,11 +22,16 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
 		<div class="ui-g-6">
 		 <a class="navbar-brand" style="float: left" title="To homepage" href="./pages/login.xhtml">TODO</a>
 		 <h:form styleClass="form-inline" style="float: left;">
-		 	<p:commandButton icon="pi pi-plus" action="#{taskView.prepareNewTask}" style="top: 3px;" styleClass="align-middle" title="Create new task" onclick="PF('dialog').show();"></p:commandButton>
+		 	<p:commandButton icon="pi pi-check" action="#{taskView.prepareNewTask}" style="top: 3px;" styleClass="align-middle" title="Create new task" onclick="PF('dialog').show();"></p:commandButton>
 		 </h:form>
 		</div>
 		
 	<div class="ui-g-6">
+		<h:form>
+		<p:autoComplete id="findUsers" value="#{authorizedUserView.requestFriend}" var="friend" itemLabel="#{friend.name} #{friend.surname}" itemValue="#{friend}" converter="#{userConverter}" completeMethod="#{authorizedUserView.findUsers}" />
+		<p:commandButton icon="pi pi-check" title="Send" actionListener="#{authorizedUserView.sendInvitation}" />		
+ 
+		</h:form>
 		<div class="dropdown" style="float: right;">
 	
 		  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -46,7 +51,7 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
 	
 	<h:form id="taskForm">
 		<p:dataTable id="tasksTbl" var="tsk" value="#{authorizedUserView.tasks}">
-		    <p:column headerText="Priorita" sortBy="#{tsk.priority}" styleClass="#{tsk.color}">
+		    <p:column headerText="Priorita"  sortBy="#{tsk.priority}" styleClass="#{tsk.color}">
 		        <h:outputText  value="#{tsk.priority}" />
 		    </p:column>
 		 

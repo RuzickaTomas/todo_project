@@ -4,6 +4,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,10 @@ public class UserConverter implements Converter {
 	
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
-		if (value == null) {
+		if (value == null || !StringUtils.isNumeric(value)) {
 			return null;
 		}
+		
 		UserDTO user = userService.get(Long.parseLong(value));
 		return user;
 	}

@@ -25,6 +25,7 @@ import cz.todo_project.app.dto.UserPropertiesDTO;
 import cz.todo_project.app.entity.User;
 import cz.todo_project.app.enums.PriorityEnum;
 import cz.todo_project.app.enums.UserRoleEnum;
+import cz.todo_project.app.service.FriendRequestService;
 import cz.todo_project.app.service.UserService;
 
 @Component
@@ -34,6 +35,8 @@ public class UserView {
     
     @Autowired
     private UserService userService;
+    
+ 
     
     private List<UserDTO> users = new ArrayList<>();
     private List<UserDTO> friends = new ArrayList<>();
