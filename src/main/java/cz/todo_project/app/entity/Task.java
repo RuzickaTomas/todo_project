@@ -1,6 +1,7 @@
 package cz.todo_project.app.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -37,10 +38,10 @@ public class Task implements Serializable {
 	private String name;
 	
 	@Column
-	private Long guess;
+	private LocalDateTime guess;
 	
 	@Column
-	private Long real;
+	private LocalDateTime real;
 	
 	@Column
 	@Enumerated(EnumType.ORDINAL)
@@ -62,16 +63,16 @@ public class Task implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Long getGuess() {
+	public LocalDateTime getGuess() {
 		return guess;
 	}
-	public void setGuess(Long guess) {
+	public void setGuess(LocalDateTime guess) {
 		this.guess = guess;
 	}
-	public Long getReal() {
+	public LocalDateTime getReal() {
 		return real;
 	}
-	public void setReal(Long real) {
+	public void setReal(LocalDateTime real) {
 		this.real = real;
 	}
 	public PriorityEnum getPriority() {

@@ -85,7 +85,7 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
 		<h:form>
 		<p:panelGrid id="grid" columns="2">
 			<h:outputLabel for="newTaskPrio" value="Priorita" />
-			<p:selectOneMenu id="newTplusaskPrio" value="#{taskView.newTask.priority}" >
+			<p:selectOneMenu id="newTplusaskPrio" style="width: 100%" value="#{taskView.newTask.priority}" >
 				<f:selectItems value="#{taskView.priorityEnums}" />
 			</p:selectOneMenu>
 			
@@ -93,20 +93,19 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
 			<p:inputText id="newTaskName" value="#{taskView.newTask.name}" />
 		
 			<h:outputLabel for="newTaskGuess" value="Odhad. čas" />
-			<p:inputText id="newTaskGuess" value="#{taskView.newTask.guess}" >
-			 	<p:keyFilter regEx="/[\d]/"/> 
-			</p:inputText>
+			<p:calendar id="newTaskGuess" value="#{taskView.newTask.guess}" pattern="MM/dd/yyyy HH:mm:ss" />
 
 			<h:outputLabel for="newTaskReal" value="Real. čas" rendered="#{taskView.toUpdate}"/>
-			<p:inputText id="newTaskReal" value="#{taskView.newTask.real}" rendered="#{taskView.toUpdate}" >
-				<p:keyFilter regEx="/[\d]/"/> 
-			</p:inputText>	
+			<p:calendar id="newTaskReal" value="#{taskView.newTask.real}" rendered="#{taskView.toUpdate}" pattern="MM/dd/yyyy HH:mm:ss" />
 			
 			<h:outputLabel for="assignee"  value="Osoba"  rendered="#{taskView.toUpdate}" />
 			<p:selectOneMenu id="assignee" value="#{taskView.newTask.user}" converter="#{userConverter}" rendered="#{taskView.toUpdate}">
 				<f:selectItems value="#{userView.users}"  var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"  />
 			</p:selectOneMenu>	
-			<p:commandButton icon="pi pi-save" actionListener="#{taskView.saveTask}" onclick="PF('dialog').hide()" value="Uložit" update=":taskForm">
+			
+			<h:outputText></h:outputText>
+			
+			<p:commandButton icon="pi pi-save" style="float: right" actionListener="#{taskView.saveTask}" onclick="PF('dialog').hide()" value="Uložit" update=":taskForm">
 			</p:commandButton>
 		</p:panelGrid>
 		</h:form>

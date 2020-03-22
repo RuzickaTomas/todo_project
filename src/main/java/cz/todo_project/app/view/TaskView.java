@@ -1,5 +1,6 @@
 package cz.todo_project.app.view;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -103,9 +104,9 @@ public class TaskView {
 
 	public void saveTask() {
 		if (!toUpdate && newTask.getId() == null) {
-		Long guess = newTask.getGuess() != null ? newTask.getGuess() : 0; 
-		Double temp = guess.doubleValue() * 1.2;
-		newTask.setReal(temp.longValue());
+		LocalDateTime guess = newTask.getGuess() != null ? newTask.getGuess() : LocalDateTime.now(); 
+		LocalDateTime temp = guess.plusMinutes(5);
+		newTask.setReal(temp);
         FacesMessage msg = new FacesMessage("Task Created", newTask.getId() + "");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 		if (newTask.getUser() == null) { 

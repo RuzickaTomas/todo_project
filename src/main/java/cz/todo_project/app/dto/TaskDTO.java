@@ -1,5 +1,6 @@
 package cz.todo_project.app.dto;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import cz.todo_project.app.enums.PriorityEnum;
@@ -8,8 +9,8 @@ public class TaskDTO {
 	
 	private Long id;
 	private String name;
-	private Long guess;
-	private Long real;
+	private LocalDateTime guess;
+	private LocalDateTime real;
 	private PriorityEnum priority;
 	private UserDTO user;
 	
@@ -25,16 +26,16 @@ public class TaskDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Long getGuess() {
+	public LocalDateTime getGuess() {
 		return guess;
 	}
-	public void setGuess(Long guess) {
+	public void setGuess(LocalDateTime guess) {
 		this.guess = guess;
 	}
-	public Long getReal() {
+	public LocalDateTime getReal() {
 		return real;
 	}
-	public void setReal(Long real) {
+	public void setReal(LocalDateTime real) {
 		this.real = real;
 	}
 	public PriorityEnum getPriority() {
