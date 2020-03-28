@@ -74,9 +74,9 @@ public class TaskService {
 		TaskDTO to =new TaskDTO();
 		to.setId(from.getId());
 		to.setName(from.getName());
-		to.setGuess(from.getGuess());
+		to.setFrom(from.getGuess());
 		to.setPriority(from.getPriority());
-		to.setReal(from.getReal());
+		to.setTo(from.getReal());
 		to.setUser(userService.transform(from.getUser()));
 		return to;
 	}
@@ -88,9 +88,9 @@ public class TaskService {
 		Task to =new Task();
 		to.setId(from.getId());
 		to.setName(from.getName());
-		to.setGuess(from.getGuess());
+		to.setGuess(from.getFrom());
 		to.setPriority(from.getPriority());
-		to.setReal(from.getReal());
+		to.setReal(from.getTo());
 		to.setUser(userService.transform(from.getUser()));
 		return to;
 	}

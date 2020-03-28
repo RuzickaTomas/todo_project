@@ -1,6 +1,7 @@
 package cz.todo_project.app.dto;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 import cz.todo_project.app.enums.PriorityEnum;
@@ -9,8 +10,8 @@ public class TaskDTO {
 	
 	private Long id;
 	private String name;
-	private LocalDateTime guess;
-	private LocalDateTime real;
+	private LocalDateTime from;
+	private LocalDateTime to;
 	private PriorityEnum priority;
 	private UserDTO user;
 	
@@ -26,23 +27,31 @@ public class TaskDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public LocalDateTime getGuess() {
-		return guess;
+
+	public LocalDateTime getFrom() {
+		return from;
 	}
-	public void setGuess(LocalDateTime guess) {
-		this.guess = guess;
+	public void setFrom(LocalDateTime from) {
+		this.from = from;
 	}
-	public LocalDateTime getReal() {
-		return real;
+	public LocalDateTime getTo() {
+		return to;
 	}
-	public void setReal(LocalDateTime real) {
-		this.real = real;
+	public void setTo(LocalDateTime to) {
+		this.to = to;
 	}
 	public PriorityEnum getPriority() {
 		return priority;
 	}
 	public void setPriority(PriorityEnum priority) {
 		this.priority = priority;
+	}
+	public String getPlannedTime() {
+		long seconds = ChronoUnit.SECONDS.between(from, to);
+		long hours = (seconds / (60*60)) % 24;
+		long minutes = (seconds / 60) % 60;
+		long countedSeconds = seconds % 60;
+		return hours + ":" + minutes + ":" + countedSeconds;  
 	}
 	
 	public UserDTO getUser() {
@@ -53,27 +62,24 @@ public class TaskDTO {
 	}
 	
 	public String getColor() {
-		if (PriorityEnum.LOW.name().equals(priority)) {
+		if (PriorityEnum.LOW.equals(priority)) {
 			return "low";
 		}
-		if (PriorityEnum.MEDIUM.name().equals(priority)) {
+		if (PriorityEnum.MEDIUM.equals(priority)) {
 			return "medium";
 		}
-		if (PriorityEnum.HIGH.name().equals(priority)) {
+		if (PriorityEnum.HIGH.equals(priority)) {
 			return "high";
 		}
-		if (PriorityEnum.IMMEDIATE.name().equals(priority)) {
+		if (PriorityEnum.IMMEDIATE.equals(priority)) {
 			return "immediate";
 		}
 		return "";
 	}
-	
-	
 	@Override
 	public int hashCode() {
-		return Objects.hash(guess, id, name, priority, real);
+		return Objects.hash(from, id, name, priority, to, user);
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -83,15 +89,18 @@ public class TaskDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		TaskDTO other = (TaskDTO) obj;
-		return Objects.equals(guess, other.guess) && Objects.equals(id, other.id) && Objects.equals(name, other.name)
-				&& Objects.equals(priority, other.priority) && Objects.equals(real, other.real);
+		return Objects.equals(from, other.from) && Objects.equals(id, other.id) && Objects.equals(name, other.name)
+				&& priority == other.priority && Objects.equals(to, other.to) && Objects.equals(user, other.user);
 	}
-	
 	@Override
 	public String toString() {
-		return "TaskDTO [id=" + id + ", name=" + name + ", guess=" + guess + ", real=" + real + ", priority=" + priority
-				+ "]";
+		return "TaskDTO [id=" + id + ", name=" + name + ", from=" + from + ", to=" + to + ", priority=" + priority
+				+ ", user=" + user + "]";
 	}
+	
+	
+
+
 	
 	
 	

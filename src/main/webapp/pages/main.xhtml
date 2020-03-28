@@ -62,11 +62,11 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
 		    </p:column>
 		 
 		    <p:column headerText="Plán">
-		        <h:outputText value="#{tsk.guess}" />
-		    </p:column>
+		        <h:outputText value="#{tsk.getPlannedTime()}" />
+		    </p:column> 
 		 
 		    <p:column headerText="Skutečnost">
-		        <h:outputText value="#{tsk.real}" />
+		        <h:outputText value="#{tsk.to}" />
 		    </p:column>
 		    
 		    <p:column style="width:45px">
@@ -92,11 +92,11 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
 			<h:outputLabel for="newTaskName" value="Název" />
 			<p:inputText id="newTaskName" value="#{taskView.newTask.name}" />
 		
-			<h:outputLabel for="newTaskGuess" value="Odhad. čas" />
-			<p:calendar id="newTaskGuess" value="#{taskView.newTask.guess}" pattern="MM/dd/yyyy HH:mm:ss" />
+			<h:outputLabel for="newTaskGuess" value="Čas od" />
+			<p:calendar id="newTaskGuess" value="#{taskView.newTask.from}" pattern="MM/dd/yyyy HH:mm:ss" />
 
-			<h:outputLabel for="newTaskReal" value="Real. čas" rendered="#{taskView.toUpdate}"/>
-			<p:calendar id="newTaskReal" value="#{taskView.newTask.real}" rendered="#{taskView.toUpdate}" pattern="MM/dd/yyyy HH:mm:ss" />
+			<h:outputLabel for="newTaskReal" value="Čas do" rendered="#{taskView.toUpdate}"/>
+			<p:calendar id="newTaskReal" value="#{taskView.newTask.to}" rendered="#{taskView.toUpdate}" pattern="MM/dd/yyyy HH:mm:ss" />
 			
 			<h:outputLabel for="assignee"  value="Osoba"  rendered="#{taskView.toUpdate}" />
 			<p:selectOneMenu id="assignee" value="#{taskView.newTask.user}" converter="#{userConverter}" rendered="#{taskView.toUpdate}">

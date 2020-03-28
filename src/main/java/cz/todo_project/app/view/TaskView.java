@@ -104,9 +104,9 @@ public class TaskView {
 
 	public void saveTask() {
 		if (!toUpdate && newTask.getId() == null) {
-		LocalDateTime guess = newTask.getGuess() != null ? newTask.getGuess() : LocalDateTime.now(); 
+		LocalDateTime guess = newTask.getFrom() != null ? newTask.getFrom() : LocalDateTime.now(); 
 		LocalDateTime temp = guess.plusMinutes(5);
-		newTask.setReal(temp);
+		newTask.setTo(temp);
         FacesMessage msg = new FacesMessage("Task Created", newTask.getId() + "");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 		if (newTask.getUser() == null) { 
