@@ -1,5 +1,6 @@
 package cz.todo_project.app.view;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -49,13 +50,19 @@ public class AuthorizedUserView {
 	
 	private final List<TaskDTO> tasks = new ArrayList<>();
 	
+	private List<FriendRequestDTO> requests = new ArrayList<FriendRequestDTO>();
+	
 	
 	@PostConstruct
 	public void init() {     	
 		if (!getAuthUsername().isBlank()) {
 			currentUser = userService.getByUsername(getAuthUsername());
+			requests = friendRequestService.getRequestsById(currentUser.getId());
 		}
-
+	}
+	
+	public List<UserDTO> requestedUsers(Set<UserDTO> users) {
+		return new ArrayList<UserDTO>(users);
 	}
 	
 
@@ -98,6 +105,26 @@ public class AuthorizedUserView {
 		 List<UserDTO> allUsers = userService.getAll();
 		 return allUsers.parallelStream().filter(user -> user.getName().contains(query) || user.getSurname().contains(query) || user.getEmail().contains(query)).collect(Collectors.toList());	 
 	}
+	
+	public void acceptRequest(FriendRequestDTO friendRequest) {
+		 friendRequest.setAccepted(LocalDateTime.now());
+		 friendRequestService.update(friendRequest);
+	}
+	
+	public void denyRequest(FriendRequestDTO friendRequest) {
+		 friendRequest.setDenied(LocalDateTime.now());
+		 friendRequestService.update(friendRequest);
+	}
+
+	public List<FriendRequestDTO> getRequests() {
+		return requests;
+	}
+
+
+	public void setRequests(List<FriendRequestDTO> requests) {
+		this.requests = requests;
+	}
+
 
 	public void sendInvitation() {
 		if (requestFriend == null) {

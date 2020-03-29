@@ -12,6 +12,7 @@ public class TaskDTO {
 	private String name;
 	private LocalDateTime from;
 	private LocalDateTime to;
+	private LocalDateTime completed;
 	private PriorityEnum priority;
 	private UserDTO user;
 	
@@ -54,11 +55,29 @@ public class TaskDTO {
 		return hours + ":" + minutes + ":" + countedSeconds;  
 	}
 	
+	public String getRealTime() {
+		if (completed != null) {
+		long seconds = ChronoUnit.SECONDS.between(completed, to);
+		long hours = (seconds / (60*60)) % 24;
+		long minutes = (seconds / 60) % 60;
+		long countedSeconds = seconds % 60;
+		return hours + ":" + minutes + ":" + countedSeconds;  
+		}
+		return null;
+	}
+	
 	public UserDTO getUser() {
 		return user;
 	}
 	public void setUser(UserDTO user) {
 		this.user = user;
+	}
+	
+	public LocalDateTime getCompleted() {
+		return completed;
+	}
+	public void setCompleted(LocalDateTime completed) {
+		this.completed = completed;
 	}
 	
 	public String getColor() {
@@ -78,7 +97,7 @@ public class TaskDTO {
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(from, id, name, priority, to, user);
+		return Objects.hash(completed, from, id, name, priority, to, user);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -89,14 +108,17 @@ public class TaskDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		TaskDTO other = (TaskDTO) obj;
-		return Objects.equals(from, other.from) && Objects.equals(id, other.id) && Objects.equals(name, other.name)
-				&& priority == other.priority && Objects.equals(to, other.to) && Objects.equals(user, other.user);
+		return Objects.equals(completed, other.completed) && Objects.equals(from, other.from)
+				&& Objects.equals(id, other.id) && Objects.equals(name, other.name) && priority == other.priority
+				&& Objects.equals(to, other.to) && Objects.equals(user, other.user);
 	}
 	@Override
 	public String toString() {
-		return "TaskDTO [id=" + id + ", name=" + name + ", from=" + from + ", to=" + to + ", priority=" + priority
-				+ ", user=" + user + "]";
+		return "TaskDTO [id=" + id + ", name=" + name + ", from=" + from + ", to=" + to + ", completed=" + completed
+				+ ", priority=" + priority + ", user=" + user + "]";
 	}
+	
+	
 	
 	
 

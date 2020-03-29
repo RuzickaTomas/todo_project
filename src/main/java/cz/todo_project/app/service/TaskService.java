@@ -77,6 +77,7 @@ public class TaskService {
 		to.setFrom(from.getGuess());
 		to.setPriority(from.getPriority());
 		to.setTo(from.getReal());
+		to.setCompleted(from.getCompleted());
 		to.setUser(userService.transform(from.getUser()));
 		return to;
 	}
@@ -91,6 +92,7 @@ public class TaskService {
 		to.setGuess(from.getFrom());
 		to.setPriority(from.getPriority());
 		to.setReal(from.getTo());
+		to.setCompleted(from.getCompleted());
 		to.setUser(userService.transform(from.getUser()));
 		return to;
 	}

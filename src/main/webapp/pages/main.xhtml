@@ -49,7 +49,21 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
 		</div>
 	</div>
 	</nav>	
-
+	<h:form id="friendRequests" >
+			<p:dataTable id="requests" var="rq" value="#{authorizedUserView.requests}">
+				<p:column headerText="Uživatel">
+					<ui:repeat var="user" value="#{authorizedUserView.requestedUsers(rq.users)}">
+							<h:outputText value="#{user.id}" />
+					</ui:repeat>
+				</p:column>
+				<p:column style="width:45px">
+					<p:commandButton icon="pi pi-check" action="#{authorizedUserView.acceptRequest(rq)}" style="width: 100%; height: 100%;" update="@form" />
+				</p:column>
+				<p:column style="width:45px">
+					<p:commandButton icon="pi pi-ban" action="#{authorizedUserView.denyRequest(rq)}" style="width: 100%; height: 100%;" update="@form"  />
+				</p:column>
+			</p:dataTable>
+	</h:form>
 	
 	<h:form id="taskForm">
 		<p:dataTable id="tasksTbl" var="tsk" value="#{authorizedUserView.tasks}">
@@ -66,7 +80,7 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
 		    </p:column> 
 		 
 		    <p:column headerText="Skutečnost">
-		        <h:outputText value="#{tsk.to}" />
+		        <h:outputText value="#{tsk.getRealTime()}" />
 		    </p:column>
 		    
 		    <p:column style="width:45px">
@@ -103,8 +117,9 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
 				<f:selectItems value="#{userView.users}"  var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"  />
 			</p:selectOneMenu>	
 			
-			<h:outputText></h:outputText>
-			
+			<p:commandButton icon="pi pi-refresh" actionListener="#{taskView.stopTheClock()}" onclick="PF('dialog').hide()" value="Stop" update=":taskForm">
+			</p:commandButton>
+						
 			<p:commandButton icon="pi pi-save" style="float: right" actionListener="#{taskView.saveTask}" onclick="PF('dialog').hide()" value="Uložit" update=":taskForm">
 			</p:commandButton>
 		</p:panelGrid>

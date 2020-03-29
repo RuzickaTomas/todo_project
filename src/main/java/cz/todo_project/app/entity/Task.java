@@ -43,6 +43,9 @@ public class Task implements Serializable {
 	@Column
 	private LocalDateTime real;
 	
+	@Column 
+	private LocalDateTime completed;
+	
 	@Column
 	@Enumerated(EnumType.ORDINAL)
 	private PriorityEnum priority;
@@ -88,12 +91,16 @@ public class Task implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+	public LocalDateTime getCompleted() {
+		return completed;
+	}
+	public void setCompleted(LocalDateTime completed) {
+		this.completed = completed;
+	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(guess, id, name, priority, real);
+		return Objects.hash(completed, guess, id, name, priority, real, user);
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -103,16 +110,17 @@ public class Task implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Task other = (Task) obj;
-		return Objects.equals(guess, other.guess) && Objects.equals(id, other.id) && Objects.equals(name, other.name)
-				&& Objects.equals(priority, other.priority) && Objects.equals(real, other.real);
+		return Objects.equals(completed, other.completed) && Objects.equals(guess, other.guess)
+				&& Objects.equals(id, other.id) && Objects.equals(name, other.name) && priority == other.priority
+				&& Objects.equals(real, other.real) && Objects.equals(user, other.user);
 	}
-	
 	@Override
 	public String toString() {
-		return "Task [id=" + id + ", name=" + name + ", guess=" + guess + ", real=" + real + ", priority=" + priority
-				+ "]";
+		return "Task [id=" + id + ", name=" + name + ", guess=" + guess + ", real=" + real + ", completed=" + completed
+				+ ", priority=" + priority + ", user=" + user + "]";
 	}
-
+	
+	
 	
 	
 	

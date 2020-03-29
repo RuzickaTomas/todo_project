@@ -38,6 +38,13 @@ public class FriendRequestService {
 	}
 
 	@Transactional(readOnly = true)
+	public List<FriendRequestDTO> getRequestsById(Long id) {
+		List<FriendRequest> friendRequests = friendRequestDao.getRequestsById(id);
+	  	return CollectionsTransformUtil.transform(friendRequests, this::transform);
+	}
+	
+	
+	@Transactional(readOnly = true)
 	public List<FriendRequestDTO> getAll() {
 		List<FriendRequest> friendRequests = friendRequestDao.getAll();
 	  	return CollectionsTransformUtil.transform(friendRequests, this::transform);

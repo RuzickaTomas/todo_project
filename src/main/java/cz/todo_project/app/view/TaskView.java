@@ -194,6 +194,10 @@ public class TaskView {
 		filterUser(null);
 	}
 	
+	public void stopTheClock() {
+		newTask.setCompleted(LocalDateTime.now());
+	}
+	
 	public void filterUser(UserDTO user) {
 		if (user == null) {
 		 if (!Long.valueOf(0L).toString().equals(filteredUser)) {

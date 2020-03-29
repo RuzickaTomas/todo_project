@@ -8,7 +8,7 @@ public class FriendRequestDTO {
 
 	private Long id;
 	private Long requestedUserId;
-	private Set<UserDTO> users = new HashSet<>();;
+	private Set<UserDTO> users = new HashSet<>();
 	private LocalDateTime denied;
 	private LocalDateTime accepted;
 	
