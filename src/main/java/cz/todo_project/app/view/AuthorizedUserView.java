@@ -17,13 +17,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
+import cz.todo_project.app.dto.FriendDTO;
 import cz.todo_project.app.dto.FriendRequestDTO;
 import cz.todo_project.app.dto.TaskDTO;
 import cz.todo_project.app.dto.UserDTO;
 import cz.todo_project.app.dto.UserDetailsImpl;
+import cz.todo_project.app.entity.Friend;
 import cz.todo_project.app.entity.FriendRequest;
+import cz.todo_project.app.enums.FriendStateEnum;
 import cz.todo_project.app.enums.PriorityEnum;
 import cz.todo_project.app.service.FriendRequestService;
+import cz.todo_project.app.service.FriendService;
 import cz.todo_project.app.service.UserService;
 import cz.todo_project.app.view.converter.CollectionsTransformUtil;
 
@@ -31,15 +35,15 @@ import cz.todo_project.app.view.converter.CollectionsTransformUtil;
 @Component
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class AuthorizedUserView {
-
-	@Autowired
-	UserView userView;
 	
 	@Autowired
 	private TaskView taskView;
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private FriendService friendService;
 	
 	@Autowired
 	private FriendRequestService friendRequestService;
@@ -89,12 +93,12 @@ public class AuthorizedUserView {
 	}
 	
 	public List<UserDTO> getUsers() {
-		if (getAuthUsername() != null) {
-			userView.getUsers().clear();
+		List<UserDTO> friends = new ArrayList<UserDTO>();
+		if (getAuthUsername() != null) {		
 			currentUser = userService.getByUsername(getAuthUsername());
-			userView.getUsers().add(currentUser);
+			friends.add(currentUser);
 		}
-		return userView.getUsers();
+		return friends;
 	}
 	
 	public String sortByPriority(PriorityEnum prio) {
@@ -109,6 +113,10 @@ public class AuthorizedUserView {
 	public void acceptRequest(FriendRequestDTO friendRequest) {
 		 friendRequest.setAccepted(LocalDateTime.now());
 		 friendRequestService.update(friendRequest);
+		 FriendDTO friend = new FriendDTO();
+		 friend.setUserId(friendRequest.getRequestedUserId());
+		 friend.setState(FriendStateEnum.ACCEPTED);
+		 friendService.create(friend);
 	}
 	
 	public void denyRequest(FriendRequestDTO friendRequest) {
