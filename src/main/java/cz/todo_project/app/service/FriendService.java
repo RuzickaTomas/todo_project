@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import cz.todo_project.app.dao.FriendDAOImpl;
 import cz.todo_project.app.dto.FriendDTO;
@@ -20,22 +21,26 @@ public class FriendService {
 	private UserService userService;
 	
 	
+	@Transactional(readOnly = true)
 	public List<FriendDTO> getAll() {
 		 List<Friend> all = friendDao.getAll();
 		 List<FriendDTO> result = CollectionsTransformUtil.transform(all, this::transform);
 		 return result;
 	}
 	
+	@Transactional(readOnly = true)
 	public FriendDTO get(Long id) {
 		Friend domain = friendDao.get(id);
 		return this.transform(domain);
 	}
 	
+	@Transactional
 	public void create(FriendDTO domain) {
 		Friend entity = transform(domain);
 		friendDao.create(entity);
 	}
 	
+	@Transactional
 	public void update(FriendDTO domain) {
 		Friend entity = transform(domain);
 		friendDao.update(entity);

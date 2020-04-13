@@ -65,8 +65,9 @@ public class AuthorizedUserView {
 		}
 	}
 	
-	public List<UserDTO> requestedUsers(Set<UserDTO> users) {
-		return new ArrayList<UserDTO>(users);
+	public List<UserDTO> requestedUsers(FriendRequestDTO req) {
+		List<UserDTO> result = new ArrayList<>(req.getUsers());
+		return result;
 	}
 	
 
@@ -116,7 +117,8 @@ public class AuthorizedUserView {
 		 FriendDTO friend = new FriendDTO();
 		 friend.setUserId(friendRequest.getRequestedUserId());
 		 friend.setState(FriendStateEnum.ACCEPTED);
-		 friendService.create(friend);
+		 currentUser.addFriend(friend);
+		 friendService.update(friend);
 	}
 	
 	public void denyRequest(FriendRequestDTO friendRequest) {

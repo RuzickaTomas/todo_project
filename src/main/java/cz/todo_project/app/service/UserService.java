@@ -24,6 +24,10 @@ public class UserService {
 	private FriendRequestService requestService;
 	
 	@Autowired
+	private FriendService friendService;
+	
+	
+	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
 	
@@ -71,6 +75,12 @@ public class UserService {
 		 return transform(domain);
 	}
 	
+	@Transactional(readOnly = true)
+	public List<UserDTO> getByIdIn(List<Long> ids) {
+		List<User> domain = userDao.getAllByIdIn(ids);
+		return CollectionsTransformUtil.transform(domain, this::transform);
+	}
+	
 	public UserDTO transform(User from) {
 		if (from == null) {
 			return null;
@@ -84,11 +94,12 @@ public class UserService {
 		if (from.getProperties() != null) {
 		to.setProperties(transform(from.getProperties()));
 		}
-		if (from.getRequests() != null) {
-			to.setFriendRequests(CollectionsTransformUtil.transform(from.getRequests(), requestService::transform));
+		/*if (from.getRequests() != null && !from.getRequests().isEmpty()) {
+			to.getFriendRequests().addAll(CollectionsTransformUtil.transform(from.getRequests(), requestService::transform));
 		}
-
-		
+		if (from.getFriends() != null) {
+			to.setFriends(CollectionsTransformUtil.transform(from.getFriends(), friendService::transform));
+		}*/
 		return to;
 	}
 
@@ -105,8 +116,11 @@ public class UserService {
 		if (from.getProperties() != null) {
 		to.setProperties(transform(from.getProperties()));
 		}
-		if (from.getFriendRequests() != null) {
+		if (from.getFriendRequests() != null && !from.getFriendRequests().isEmpty()) {
 			to.setRequests(CollectionsTransformUtil.transform(from.getFriendRequests(), requestService::transform));
+		}
+		if (from.getFriends() != null) {
+			to.setFriends(CollectionsTransformUtil.transform(from.getFriends(), friendService::transform));
 		}
 		return to;
 	}

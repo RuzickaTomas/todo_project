@@ -52,8 +52,8 @@ xmlns:c="http://java.sun.com/jsp/jstl/core"
 	<h:form id="friendRequests" >
 			<p:dataTable id="requests" var="rq" value="#{authorizedUserView.requests}">
 				<p:column headerText="Uživatel">
-					<ui:repeat var="user" value="#{authorizedUserView.requestedUsers(rq.users)}">
-							<h:outputText value="#{user.id}" />
+					<ui:repeat var="user" value="#{authorizedUserView.requestedUsers(rq)}">
+							<h:outputText value="#{user.displayName}" />
 					</ui:repeat>
 				</p:column>
 				<p:column style="width:45px">

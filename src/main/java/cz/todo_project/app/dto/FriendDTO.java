@@ -1,5 +1,6 @@
 package cz.todo_project.app.dto;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -9,7 +10,7 @@ public class FriendDTO {
 
 	private Long id;
 	private Long userId;
-	private Set<UserDTO> user;
+	private Set<UserDTO> users = new HashSet<UserDTO>();
 	private FriendStateEnum state;
 	
 	public Long getId() {
@@ -24,11 +25,11 @@ public class FriendDTO {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-	public Set<UserDTO> getUser() {
-		return user;
+	public Set<UserDTO> getUsers() {
+		return users;
 	}
-	public void setUser(Set<UserDTO> user) {
-		this.user = user;
+	public void setUsers(Set<UserDTO> users) {
+		this.users = users;
 	}
 	public FriendStateEnum getState() {
 		return state;
@@ -38,7 +39,7 @@ public class FriendDTO {
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, state, user, userId);
+		return Objects.hash(id, state, users, userId);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -49,13 +50,13 @@ public class FriendDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		FriendDTO other = (FriendDTO) obj;
-		return Objects.equals(id, other.id) && state == other.state && Objects.equals(user, other.user)
+		return Objects.equals(id, other.id) && state == other.state && Objects.equals(users, other.users)
 				&& Objects.equals(userId, other.userId);
 	}
 	
 	@Override
 	public String toString() {
-		return "FriendDTO [id=" + id + ", userId=" + userId + ", user=" + user + ", state=" + state + "]";
+		return "FriendDTO [id=" + id + ", userId=" + userId + ", user=" + users + ", state=" + state + "]";
 	}
 	
 	

@@ -22,7 +22,7 @@ public class UserDTO {
 	
 	private Set<FriendDTO> friends = new HashSet<>();
 	
-	private Set<FriendRequestDTO> friendRequests = new HashSet<>();;
+	private Set<FriendRequestDTO> friendRequests = new HashSet<>();
  	
 	private UserPropertiesDTO properties;
 		
@@ -38,12 +38,19 @@ public class UserDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public String getSurname() {
 		return surname;
 	}
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
+	
+	public String getDisplayName() {
+		return String.format("%s %s", name,  surname);
+	}
+	
+	
 	public LocalDate getValid_to() {
 		return valid_to;
 	}
@@ -66,6 +73,16 @@ public class UserDTO {
 	public void removeFriendRequest(FriendRequestDTO request) {
 		friendRequests.remove(request);
 		request.getUsers().remove(this);
+	}
+	
+	public void addFriend(FriendDTO applicant) {
+		friends.add(applicant);
+		applicant.getUsers().add(this);
+	}
+	
+	public void removeFriend(FriendDTO friend) {
+		friends.remove(friend);
+		friend.getUsers().remove(this);
 	}
 	
 	public String getEmail() {
