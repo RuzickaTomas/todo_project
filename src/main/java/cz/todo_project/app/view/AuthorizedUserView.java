@@ -2,9 +2,7 @@ package cz.todo_project.app.view;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -22,14 +20,11 @@ import cz.todo_project.app.dto.FriendRequestDTO;
 import cz.todo_project.app.dto.TaskDTO;
 import cz.todo_project.app.dto.UserDTO;
 import cz.todo_project.app.dto.UserDetailsImpl;
-import cz.todo_project.app.entity.Friend;
-import cz.todo_project.app.entity.FriendRequest;
 import cz.todo_project.app.enums.FriendStateEnum;
 import cz.todo_project.app.enums.PriorityEnum;
 import cz.todo_project.app.service.FriendRequestService;
 import cz.todo_project.app.service.FriendService;
 import cz.todo_project.app.service.UserService;
-import cz.todo_project.app.view.converter.CollectionsTransformUtil;
 
 
 @Component
@@ -99,6 +94,7 @@ public class AuthorizedUserView {
 			currentUser = userService.getByUsername(getAuthUsername());
 			friends.add(currentUser);
 		}
+		List<FriendDTO> allAvailableFriends = friendService.getAll();
 		return friends;
 	}
 	
@@ -108,7 +104,7 @@ public class AuthorizedUserView {
 	
 	public List<UserDTO> findUsers(String query) {
 		 List<UserDTO> allUsers = userService.getAll();
-		 return allUsers.parallelStream().filter(user -> user.getName().contains(query) || user.getSurname().contains(query) || user.getEmail().contains(query)).collect(Collectors.toList());	 
+		 return allUsers.stream().filter(user -> user.getName().contains(query) || user.getSurname().contains(query) || user.getEmail().contains(query)).collect(Collectors.toList());	 
 	}
 	
 	public void acceptRequest(FriendRequestDTO friendRequest) {
